@@ -1,0 +1,129 @@
+.App {
+  text-align: center;
+}
+
+.Grid {
+  overflow: hidden;
+}
+
+.RotateLeft {
+  animation: rotateLeft 0.25s linear;
+}
+
+.RotateRight {
+  animation: rotateRight 0.25s linear;
+}
+
+.MoveUp {
+  animation: moveUp 0.25s linear;
+}
+
+.MoveDown {
+  animation: moveDown 0.25s linear;
+}
+
+.MoveLeft {
+  animation: moveLeft 0.25s linear;
+}
+
+.MoveRight {
+  animation: moveRight 0.25s linear;
+}
+
+
+.Row {
+  margin: 0px;
+}
+
+
+
+@keyframes rotateLeft {
+  
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  33% {
+    transform: rotate(-3deg);
+  }
+  
+  66% {
+    transform: rotate(-7deg);
+  }
+}
+
+@keyframes rotateRight {
+  
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  33% {
+    transform: rotate(3deg);
+  }
+  
+  66% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes moveUp {
+  
+  0% {
+    transform: translateY(0px);
+  }
+  
+  33% {
+    transform: translateY(-4px);
+  }
+  
+  66% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes moveDown {
+  
+  0% {
+    transform: translateY(0px);
+  }
+  
+  33% {
+    transform: translateY(4px);
+  }
+  
+  66% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes moveLeft {
+  
+  0% {
+    transform: translateX(0px);
+  }
+  
+  33% {
+    transform: translateX(-4px);
+  }
+  
+  66% {
+    transform: translateX(-8px);
+  }
+}
+
+@keyframes moveRight {
+  
+  0% {
+    transform: translateX(0px);
+  }
+  
+  33% {
+    transform: translateX(4px);
+  }
+  
+  66% {
+    transform: translateX(8px);
+  }
+}
+
