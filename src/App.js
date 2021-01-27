@@ -2,21 +2,43 @@ import { useState } from 'react';
 
 import classes from './App.module.css';
 
-import Square from './components/Square/Square';
+import Button from './components/Button/Button';
+import Grid from './components/Grid/Grid';
+import TargetGrid from './components/TargetGrid/TargetGrid';
+
 
 function App() {
 
   const [matrix, setMatrix] = useState([
-    'red', '', '',
+    'red', '', 'blue',
     '', '', '',
     'red', '', 'red'
   ])
 
-  const target = [
-    'red', 'red', 'red',
-    '', '', '',
-    '', '', ''
-  ];
+  function shuffle() {
+    const matrixCopy = [...matrix];
+    let randomIndex;
+    let temp;
+
+    for (let i = matrixCopy.length - 1; i > 0; i--) {
+      randomIndex = Math.floor(Math.random() * (i + 1));
+
+      temp = matrixCopy[i];
+      matrixCopy[i] = matrixCopy[randomIndex];
+      matrixCopy[randomIndex] = temp;
+    }
+
+    return matrixCopy;
+  }
+
+  const [target, setTarget] = useState(shuffle(matrix));
+
+  function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+  }
 
   const [gridClasses, setGridClasses] = useState([classes.Grid])
 
@@ -110,51 +132,28 @@ function App() {
   return (
     <div className={classes.App}>
       <h1>Rubik's Slide</h1>
-      <div className={gridClasses.join(' ')}>
-        <div className={classes.Row}>
-          <Square color={matrix[0]} />
-          <Square color={matrix[1]} />
-          <Square color={matrix[2]} />
-        </div>
-        <div className={classes.Row}>
-          <Square color={matrix[3]} />
-          <Square color={matrix[4]} />
-          <Square color={matrix[5]} />
-        </div>
-        <div className={classes.Row}>
-          <Square color={matrix[6]} />
-          <Square color={matrix[7]} />
-          <Square color={matrix[8]} />
-        </div>
-      </div>
-      <button onClick={rotateLeft}>Rotate Left</button>
-      <button onClick={rotateRight}>Rotate Right</button>
-      <div>
-        <button onClick={moveUp}>Up</button>
-      </div>
-      <div>
-        <button onClick={moveLeft}>Left</button>
-        <button onClick={moveRight}>Right</button>
-      </div>
-      <div>
-        <button onClick={moveDown}>Down</button>
-      </div>
+      <Grid matrix={matrix} gridClasses={gridClasses} />
+      <div className={classes.ControlBar}>
+        <div className={classes.Panel}>
 
-      <div className={classes.smallGrid}>
-        <div className={classes.Row}>
-          <Square color={target[0]} />
-          <Square color={target[1]} />
-          <Square color={target[2]} />
         </div>
-        <div className={classes.Row}>
-          <Square color={target[3]} />
-          <Square color={target[4]} />
-          <Square color={target[5]} />
+        <div className={classes.Controls}>
+          <div>
+            <Button onClick={rotateLeft}>&#10226;</Button>
+            <Button onClick={moveUp}>&#129045;</Button>
+            <Button onClick={rotateRight}>&#10227;</Button>
+          </div>
+          <div>
+            <Button onClick={moveLeft}>&#129044;</Button>
+            <Button onClick={moveRight}>&#129046;</Button>
+          </div>
+          <div>
+            <Button onClick={moveDown}>&#129047;</Button>
+          </div>
         </div>
-        <div className={classes.Row}>
-          <Square color={target[6]} />
-          <Square color={target[7]} />
-          <Square color={target[8]} />
+        <div className={classes.Panel}>
+          <div className={classes.TargetTitle}>Target</div>
+          <TargetGrid matrix={target} />
         </div>
       </div>
     </div>

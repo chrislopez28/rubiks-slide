@@ -1,7 +1,7 @@
-.App {
-  text-align: center;
-  overflow: hidden;
-  background-color: rgba(247, 255, 249, 0.871);
+
+.Grid {
+    padding: 2px;
+    border: 1px solid black;
 }
 
 .RotateLeft {
@@ -32,23 +32,6 @@
   margin: 0px;
 }
 
-.ControlBar {
-  background-color: rgba(190, 190, 190, 0.871);
-  border-top: 1px solid black;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.25rem 0rem;
-  align-items: center;
-}
-
-.Panel {
-  width: 20vw;
-}
-
-.TargetTitle {
-  font: 1rem;
-}
-
 @keyframes rotateLeft {
   
   0% {
@@ -56,11 +39,11 @@
   }
   
   33% {
-    transform: rotate(-3deg);
+    transform: rotate(-15deg);
   }
   
   66% {
-    transform: rotate(-7deg);
+    transform: rotate(-45deg);
   }
 }
 
@@ -71,11 +54,11 @@
   }
   
   33% {
-    transform: rotate(3deg);
+    transform: rotate(15deg);
   }
   
   66% {
-    transform: rotate(7deg);
+    transform: rotate(45deg);
   }
 }
 
