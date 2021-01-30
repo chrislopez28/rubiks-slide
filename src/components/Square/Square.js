@@ -9,8 +9,14 @@ const Square = props => {
         case 'blue':
             squareClasses.push(classes.Blue)
             break;
+        case 'green':
+            squareClasses.push(classes.Gren)
+            break;
         case 'red':
             squareClasses.push(classes.Red)
+            break;
+        case 'yellow':
+            squareClasses.push(classes.Yellow)
             break;
         default:
             break;

@@ -4,14 +4,16 @@
     color: white;
     cursor: pointer;
     font: inherit;
-    font-size: small;
+    font-size: large;
     font-weight: bold;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 5px;
     margin: 1px;
     /* width: calc(100%); */
     width: 2rem;
     display: inline-block;
+    height: 2rem;
+    width: 2rem;
 }
 
 .Button:hover {

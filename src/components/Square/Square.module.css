@@ -1,5 +1,5 @@
 .Square {
-    border: 1px solid black;
+    border: 3px solid black;
     height: 3rem;
     width: 3rem;
     box-sizing: border-box;
@@ -11,7 +11,16 @@
     background-color: blue;
 }
 
+.Green {
+    background-color: green;
+}
+
 .Red {
     background-color: red;
 }
+
+.Yellow {
+    background-color: yellow;
+}
+
 
