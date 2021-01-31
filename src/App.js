@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 import classes from './App.module.css';
+import { arrayEquals, shuffle } from './util/array';
 
 import Button from './components/Button/Button';
 import Grid from './components/Grid/Grid';
@@ -53,39 +54,15 @@ function App() {
     }, [delay]);
   }
 
-  function shuffle() {
-    const matrixCopy = [...matrix];
-    let randomIndex;
-    let temp;
-
-    for (let i = matrixCopy.length - 1; i > 0; i--) {
-      randomIndex = Math.floor(Math.random() * (i + 1));
-
-      temp = matrixCopy[i];
-      matrixCopy[i] = matrixCopy[randomIndex];
-      matrixCopy[randomIndex] = temp;
-    }
-
-    return matrixCopy;
-  }
-
-  function arrayEquals(a, b) {
-    return Array.isArray(a) &&
-      Array.isArray(b) &&
-      a.length === b.length &&
-      a.every((val, index) => val === b[index]);
-  }
-
   function newGame() {
     let numColors = Math.floor(Math.random() * numberColors) + 1;
-    let numSquaresMax = numberSquaresMax;
+    let numSquaresMax = Math.floor(Math.random() * (numberSquaresMax - 1)) + 2;
     let randomColor;
     let numSquares = 0;
     const newMatrix = [];
     for (let i = 0; i < 9; i++) {
       if (numSquares < numSquaresMax) {
         randomColor = Math.floor(Math.random() * (numColors));
-        // console.log(numColors, randomColor)
         switch (randomColor) {
           case 0:
             newMatrix.push("blue")
@@ -105,13 +82,17 @@ function App() {
       }
     }
     const updatedMatrix = shuffle(newMatrix);
-    let updatedTarget;
+    let updatedTarget = shuffle(newMatrix);
     
-    while (!arrayEquals(updatedMatrix, updatedTarget)) {
-      updatedTarget = shuffle(updatedMatrix);
+    if (arrayEquals(updatedMatrix, updatedTarget)) {
+      updatedTarget = shuffle(newMatrix);
     }
 
     console.log(numberColors, numColors, numSquares, updatedMatrix)
+    setGame({
+      matrix: updatedMatrix,
+      target: updatedTarget
+    })
     setMatrix(newMatrix);
     setTarget(updatedTarget);
     setNumberSolved(numberSolved + 1);
@@ -128,37 +109,41 @@ function App() {
     let updatedGridClasses;
     switch (moveType) {
       case 'rotateLeft':
-        updatedMatrix = [matrix[1], matrix[2], matrix[5],  matrix[0], matrix[4], matrix[8],  matrix[3], matrix[6], matrix[7]]
+        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[5],  game.matrix[0], game.matrix[4], game.matrix[8],  game.matrix[3], game.matrix[6], game.matrix[7]]
         updatedGridClasses = [classes.Grid, classes.RotateLeft];
         break;
       case 'rotateRight':
-        updatedMatrix = [matrix[3], matrix[0], matrix[1],  matrix[6], matrix[4], matrix[2],  matrix[7], matrix[8], matrix[5]]
+        updatedMatrix = [game.matrix[3], game.matrix[0], game.matrix[1],  game.matrix[6], game.matrix[4], game.matrix[2],  game.matrix[7], game.matrix[8], game.matrix[5]]
         updatedGridClasses = [classes.Grid, classes.RotateRight];
         break;
       case 'moveUp':
-        updatedMatrix = [matrix[3], matrix[4], matrix[5],  matrix[6], matrix[7], matrix[8],  matrix[0], matrix[1], matrix[2]]
+        updatedMatrix = [game.matrix[3], game.matrix[4], game.matrix[5],  game.matrix[6], game.matrix[7], game.matrix[8],  game.matrix[0], game.matrix[1], game.matrix[2]]
         updatedGridClasses = [classes.Grid, classes.MoveUp];
         break;
       case 'moveDown':
-        updatedMatrix = [matrix[6], matrix[7], matrix[8],  matrix[0], matrix[1], matrix[2],  matrix[3], matrix[4], matrix[5]]
+        updatedMatrix = [game.matrix[6], game.matrix[7], game.matrix[8],  game.matrix[0], game.matrix[1], game.matrix[2],  game.matrix[3], game.matrix[4], game.matrix[5]]
         updatedGridClasses = [classes.Grid, classes.MoveDown];
         break;
       case 'moveLeft':
-        updatedMatrix = [matrix[1], matrix[2], matrix[0],  matrix[4], matrix[5], matrix[3],  matrix[7], matrix[8], matrix[6]]
+        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[0],  game.matrix[4], game.matrix[5], game.matrix[3],  game.matrix[7], game.matrix[8], game.matrix[6]]
         updatedGridClasses = [classes.Grid, classes.MoveLeft];
         break;
       case 'moveRight':
-        updatedMatrix = [matrix[2], matrix[0], matrix[1],  matrix[5], matrix[3], matrix[4],  matrix[8], matrix[6], matrix[7]]
+        updatedMatrix = [game.matrix[2], game.matrix[0], game.matrix[1],  game.matrix[5], game.matrix[3], game.matrix[4],  game.matrix[8], game.matrix[6], game.matrix[7]]
         updatedGridClasses = [classes.Grid, classes.MoveRight];
         break;
       default:
         break;
     }
+    setGame({
+      ...game,
+      matrix: updatedMatrix
+    })
     setMatrix(updatedMatrix);
     setGridClasses(updatedGridClasses);
     setMoveCount(moveCount + 1);
     setTimeout(resetGridClasses, resetDelay);
-    if (arrayEquals(updatedMatrix, target)) {
+    if (arrayEquals(updatedMatrix, game.target)) {
       console.log("Solved!");
       setIsSolved(true);
     } 
@@ -242,7 +227,7 @@ function App() {
       </Modal>
       <h1>Rubik's Slide Simulator</h1>
       <div className={classes.GridContainer}>
-        <Grid matrix={matrix} gridClasses={gridClasses} />
+        <Grid matrix={game.matrix} gridClasses={gridClasses} />
       </div>
       <div className={classes.ControlBar}>
         <div className={classes.Panel}>
@@ -268,7 +253,7 @@ function App() {
         </div>
         <div className={classes.Panel}>
           <div className={classes.TargetTitle}>Target</div>
-          <TargetGrid matrix={target} />
+          <TargetGrid matrix={game.target} />
         </div>
       </div>
     </div>
