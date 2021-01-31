@@ -6,7 +6,9 @@ const Button = (props) => (
     <button
         className={[classes.Button]}
         onClick={props.onClick}
-        type={props.type}>{props.children}</button>
+        type={props.type}
+        disabled={props.disabled}>{props.children}
+    </button>
 )
 
 export default Button;

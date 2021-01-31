@@ -10,8 +10,13 @@ import TargetGrid from './components/TargetGrid/TargetGrid';
 
 function App() {
 
-  const [numberColors, setNumberColors] = useState(2);
+  const [numberColors] = useState(2);
+  const [numberSquaresMax] = useState(5);
 
+  const [game, setGame] = useState({
+    matrix: ['blue', '', 'blue', '', '', '', '', '', ''],
+    target: ['blue', 'blue', '', '', '', '', '', '', '']
+  })
 
   const [matrix, setMatrix] = useState([
     '', '', 'blue',
@@ -19,23 +24,24 @@ function App() {
     'blue', '', 'blue'
   ])
 
+  const shuffledMatrix = shuffle(matrix);
+  const [target, setTarget] = useState(shuffledMatrix);
+
   const [moveCount, setMoveCount] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(false);
   const [numberSolved, setNumberSolved] = useState(0);
   const [isMenuOn, setIsMenuOn] = useState(false);
   const [isSolved, setIsSolved] = useState(false);
+  const [gridClasses, setGridClasses] = useState([classes.Grid])
   const resetDelay = 500;
-  const [target, setTarget] = useState(shuffle(matrix));
 
   function useInterval(callback, delay) {
     const savedCallback = useRef();
 
-    // Remember the latest callback.
     useEffect(() => {
       savedCallback.current = callback;
     }, [callback]);
 
-    // Set up the interval.
     useEffect(() => {
       function tick() {
         savedCallback.current();
@@ -63,8 +69,6 @@ function App() {
     return matrixCopy;
   }
 
-
-
   function arrayEquals(a, b) {
     return Array.isArray(a) &&
       Array.isArray(b) &&
@@ -72,70 +76,51 @@ function App() {
       a.every((val, index) => val === b[index]);
   }
 
-  const [gridClasses, setGridClasses] = useState([classes.Grid])
+  function newGame() {
+    let numColors = Math.floor(Math.random() * numberColors) + 1;
+    let numSquaresMax = numberSquaresMax;
+    let randomColor;
+    let numSquares = 0;
+    const newMatrix = [];
+    for (let i = 0; i < 9; i++) {
+      if (numSquares < numSquaresMax) {
+        randomColor = Math.floor(Math.random() * (numColors));
+        // console.log(numColors, randomColor)
+        switch (randomColor) {
+          case 0:
+            newMatrix.push("blue")
+            break;
+          case 1:
+            newMatrix.push("red")
+            break;
+          case 2:
+            newMatrix.push("green")
+            break;
+          default:
+            break;
+        }
+        numSquares += 1;
+      } else {
+        newMatrix.push("")
+      }
+    }
+    const updatedMatrix = shuffle(newMatrix);
+    let updatedTarget;
+    
+    while (!arrayEquals(updatedMatrix, updatedTarget)) {
+      updatedTarget = shuffle(updatedMatrix);
+    }
+
+    console.log(numberColors, numColors, numSquares, updatedMatrix)
+    setMatrix(newMatrix);
+    setTarget(updatedTarget);
+    setNumberSolved(numberSolved + 1);
+    setMoveCount(0);
+    console.log(newMatrix, updatedTarget)
+  }
 
   const resetGridClasses = () => {
     setGridClasses([classes.Grid]);
-  }
-
-  const rotateLeft = () => {
-    const updatedMatrix = [
-      matrix[1], matrix[2], matrix[5],
-      matrix[0], matrix[4], matrix[8],
-      matrix[3], matrix[6], matrix[7]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.RotateLeft];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
-  }
-
-  const rotateRight = () => {
-    const updatedMatrix = [
-      matrix[3], matrix[0], matrix[1],
-      matrix[6], matrix[4], matrix[2],
-      matrix[7], matrix[8], matrix[5]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.RotateRight];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
-  }
-
-  const moveUp = () => {
-    const updatedMatrix = [
-      matrix[3], matrix[4], matrix[5],
-      matrix[6], matrix[7], matrix[8],
-      matrix[0], matrix[1], matrix[2]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.MoveUp];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
-  }
-
-  const moveDown = () => {
-    const updatedMatrix = [
-      matrix[6], matrix[7], matrix[8],
-      matrix[0], matrix[1], matrix[2],
-      matrix[3], matrix[4], matrix[5]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.MoveDown];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
   }
 
   const slide = (moveType) => {
@@ -173,35 +158,10 @@ function App() {
     setGridClasses(updatedGridClasses);
     setMoveCount(moveCount + 1);
     setTimeout(resetGridClasses, resetDelay);
-  }
-
-  const moveLeft = () => {
-    const updatedMatrix = [
-      matrix[1], matrix[2], matrix[0],
-      matrix[4], matrix[5], matrix[3],
-      matrix[7], matrix[8], matrix[6]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.MoveLeft];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
-  }
-  const moveRight = () => {
-    const updatedMatrix = [
-      matrix[2], matrix[0], matrix[1],
-      matrix[5], matrix[3], matrix[4],
-      matrix[8], matrix[6], matrix[7]
-    ]
-
-    const updatedGridClasses = [classes.Grid, classes.MoveRight];
-
-    setMatrix(updatedMatrix);
-    setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
+    if (arrayEquals(updatedMatrix, target)) {
+      console.log("Solved!");
+      setIsSolved(true);
+    } 
   }
 
   useInterval(() => {
@@ -209,6 +169,7 @@ function App() {
       if (arrayEquals(matrix, target)) {
         console.log("Solved!");
         setIsAutoplay(false);
+        setIsSolved(true);
       } else {
         randomize();
       }
@@ -221,27 +182,27 @@ function App() {
     switch (option) {
       case 0:
         console.log("Rotate Left")
-        rotateLeft();
+        slide("rotateLeft");
         break;
       case 1:
         console.log("Rotate Right")
-        rotateRight();
+        slide("rotateRight");
         break;
       case 2:
         console.log("Move Up")
-        moveUp();
+        slide("moveUp");
         break;
       case 3:
         console.log("Move Down")
-        moveDown();
+        slide("moveDown");
         break;
       case 4:
         console.log("Move Left")
-        moveLeft();
+        slide("moveLeft");
         break;
       case 5:
         console.log("Move Right")
-        moveRight();
+        slide("moveRight");
         break;
       default:
         break;
@@ -257,6 +218,8 @@ function App() {
     const updatedToggle = !isAutoplay;
     setIsAutoplay(updatedToggle);
   }
+
+
 
   return (
     <div className={classes.App}>
@@ -286,21 +249,21 @@ function App() {
           <p>Game ID: </p>
           <p>Number Solved: {numberSolved}</p>
           <p>Moves: {moveCount}</p>
-          <button onClick={toggleMenu}>Menu</button>
+          <button onClick={newGame}>New Game</button>
           <button onClick={randomShuffle}>Toggle Autosolve</button>
         </div>
         <div className={classes.Controls}>
           <div>
-            <Button onClick={() => slide('rotateLeft')}>&#10226;</Button>
-            <Button onClick={() => slide('moveUp')}>&#129045;</Button>
-            <Button onClick={() => slide('rotateRight')}>&#10227;</Button>
+            <Button onClick={() => slide('rotateLeft')} disabled={isSolved}>&#10226;</Button>
+            <Button onClick={() => slide('moveUp')} disabled={isSolved}>&#129045;</Button>
+            <Button onClick={() => slide('rotateRight')} disabled={isSolved}>&#10227;</Button>
           </div>
           <div>
-            <Button onClick={() => slide('moveLeft')}>&#129044;</Button>
-            <Button onClick={() => slide('moveRight')}>&#129046;</Button>
+            <Button onClick={() => slide('moveLeft')} disabled={isSolved}>&#129044;</Button>
+            <Button onClick={() => slide('moveRight')} disabled={isSolved}>&#129046;</Button>
           </div>
           <div>
-            <Button onClick={() => slide('moveDown')}>&#129047;</Button>
+            <Button onClick={() => slide('moveDown')} disabled={isSolved}>&#129047;</Button>
           </div>
         </div>
         <div className={classes.Panel}>
