@@ -1,13 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 
 import classes from './App.module.css';
 import { arrayEquals, shuffle } from './util/array';
+import useInterval from './util/useInterval';
 
 import Button from './components/Button/Button';
 import Grid from './components/Grid/Grid';
 import Modal from './components/UI/Modal/Modal';
-import TargetGrid from './components/TargetGrid/TargetGrid';
-
 
 function App() {
 
@@ -15,8 +14,8 @@ function App() {
   const [numberSquaresMax] = useState(5);
 
   const [game, setGame] = useState({
-    matrix: ['blue', '', 'blue', '', '', '', '', '', ''],
-    target: ['blue', 'blue', '', '', '', '', '', '', '']
+    matrix: [1, 0, 1, 0, 0, 0, 0, 0, 0],
+    target: [1, 1, 0, 0, 0, 0, 0, 0, 0]
   })
 
   const [matrix, setMatrix] = useState([
@@ -36,23 +35,7 @@ function App() {
   const [gridClasses, setGridClasses] = useState([classes.Grid])
   const resetDelay = 500;
 
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
 
-    useEffect(() => {
-      savedCallback.current = callback;
-    }, [callback]);
-
-    useEffect(() => {
-      function tick() {
-        savedCallback.current();
-      }
-      if (delay !== null) {
-        let id = setInterval(tick, delay);
-        return () => clearInterval(id);
-      }
-    }, [delay]);
-  }
 
   function newGame() {
     let numColors = Math.floor(Math.random() * numberColors) + 1;
@@ -85,7 +68,9 @@ function App() {
     let updatedTarget = shuffle(newMatrix);
     
     if (arrayEquals(updatedMatrix, updatedTarget)) {
-      updatedTarget = shuffle(newMatrix);
+      while (arrayEquals(updatedMatrix, updatedTarget)) {
+        updatedTarget = shuffle(newMatrix);
+      }
     }
 
     console.log(numberColors, numColors, numSquares, updatedMatrix)
@@ -204,8 +189,6 @@ function App() {
     setIsAutoplay(updatedToggle);
   }
 
-
-
   return (
     <div className={classes.App}>
       <Modal>
@@ -253,7 +236,7 @@ function App() {
         </div>
         <div className={classes.Panel}>
           <div className={classes.TargetTitle}>Target</div>
-          <TargetGrid matrix={game.target} />
+          <Grid matrix={game.target} mini />
         </div>
       </div>
     </div>

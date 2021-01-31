@@ -3,20 +3,22 @@ import React from 'react';
 import classes from './Square.module.css'
 
 const Square = props => {
-    const squareClasses = [classes.Square]
+    let squareClasses = []
+    if (props.mini) {
+        squareClasses.push(classes.MiniSquare)
+    } else {
+        squareClasses.push(classes.Square)
+    }
 
     switch (props.color) {
-        case 'blue':
+        case 1:
             squareClasses.push(classes.Blue)
             break;
-        case 'green':
-            squareClasses.push(classes.Gren)
-            break;
-        case 'red':
+        case 2:
             squareClasses.push(classes.Red)
             break;
-        case 'yellow':
-            squareClasses.push(classes.Yellow)
+        case 3:
+            squareClasses.push(classes.Green)
             break;
         default:
             break;

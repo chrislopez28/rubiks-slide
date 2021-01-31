@@ -32,6 +32,11 @@
   margin: 0px;
 }
 
+.MiniRow {
+    margin: 0px;
+    box-sizing: border-box;
+}
+
 @keyframes rotateLeft {
   
   0% {
