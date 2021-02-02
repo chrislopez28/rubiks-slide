@@ -23,7 +23,6 @@ function App() {
   const [isAutoplay, setIsAutoplay] = useState(false);
   const [numberSolved, setNumberSolved] = useState(0);
   const [isMenuOn, setIsMenuOn] = useState(false);
-  const [isSolved, setIsSolved] = useState(false);
   const [gridClasses, setGridClasses] = useState([classes.Grid])
   const resetDelay = 500;
 
@@ -66,15 +65,13 @@ function App() {
       }
     }
 
-    console.log(numberColors, numColors, numSquares, updatedMatrix)
     setGame({
       matrix: updatedMatrix,
-      target: updatedTarget
+      target: updatedTarget, 
+      isSolved: false
     })
     setNumberSolved(numberSolved + 1);
-    setIsSolved(false);
     setMoveCount(0);
-    console.log(newMatrix, updatedTarget)
   }
 
   const resetGridClasses = () => {
@@ -112,26 +109,29 @@ function App() {
       default:
         break;
     }
+
+    let isSolved = false;
+
+    if (arrayEquals(updatedMatrix, game.target)) {
+      console.log("Solved!");
+      isSolved = true;
+    }
+
     setGame({
       ...game,
-      matrix: updatedMatrix
+      matrix: updatedMatrix,
+      isSolved
     })
+
     setGridClasses(updatedGridClasses);
     setMoveCount(moveCount + 1);
     setTimeout(resetGridClasses, resetDelay);
-    if (arrayEquals(updatedMatrix, game.target)) {
-      console.log("Solved!");
-      setIsSolved(true);
-    }
+
   }
 
   useInterval(() => {
     if (isAutoplay) {
-      if (arrayEquals(game.matrix, game.target)) {
-        console.log("Solved!");
-        setIsAutoplay(false);
-        setIsSolved(true);
-      } else {
+      if (!game.isSolved) {
         randomize();
       }
     }
@@ -222,16 +222,16 @@ function App() {
         </div>
         <div className={classes.Controls}>
           <div>
-            <Button onClick={() => slide('rotateLeft')} disabled={isSolved}>&#10226;</Button>
-            <Button onClick={() => slide('moveUp')} disabled={isSolved}>&#129045;</Button>
-            <Button onClick={() => slide('rotateRight')} disabled={isSolved}>&#10227;</Button>
+            <Button onClick={() => slide('rotateLeft')} disabled={game.isSolved}>&#10226;</Button>
+            <Button onClick={() => slide('moveUp')} disabled={game.isSolved}>&#129045;</Button>
+            <Button onClick={() => slide('rotateRight')} disabled={game.isSolved}>&#10227;</Button>
           </div>
           <div>
-            <Button onClick={() => slide('moveLeft')} disabled={isSolved}>&#129044;</Button>
-            <Button onClick={() => slide('moveRight')} disabled={isSolved}>&#129046;</Button>
+            <Button onClick={() => slide('moveLeft')} disabled={game.isSolved}>&#129044;</Button>
+            <Button onClick={() => slide('moveRight')} disabled={game.isSolved}>&#129046;</Button>
           </div>
           <div>
-            <Button onClick={() => slide('moveDown')} disabled={isSolved}>&#129047;</Button>
+            <Button onClick={() => slide('moveDown')} disabled={game.isSolved}>&#129047;</Button>
           </div>
         </div>
         <div className={classes.Panel}>
