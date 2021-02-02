@@ -18,15 +18,7 @@ function App() {
     target: [1, 1, 0, 0, 0, 0, 0, 0, 0]
   })
 
-  const [matrix, setMatrix] = useState([
-    '', '', 'blue',
-    '', '', 'blue',
-    'blue', '', 'blue'
-  ])
-
-  const shuffledMatrix = shuffle(matrix);
-  const [target, setTarget] = useState(shuffledMatrix);
-
+  const [isStart, setIsStart] = useState(true);
   const [moveCount, setMoveCount] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(false);
   const [numberSolved, setNumberSolved] = useState(0);
@@ -48,15 +40,16 @@ function App() {
         randomColor = Math.floor(Math.random() * (numColors));
         switch (randomColor) {
           case 0:
-            newMatrix.push("blue")
+            newMatrix.push(1)
             break;
           case 1:
-            newMatrix.push("red")
+            newMatrix.push(2)
             break;
           case 2:
-            newMatrix.push("green")
+            newMatrix.push(3)
             break;
           default:
+            newMatrix.push(0)
             break;
         }
         numSquares += 1;
@@ -66,7 +59,7 @@ function App() {
     }
     const updatedMatrix = shuffle(newMatrix);
     let updatedTarget = shuffle(newMatrix);
-    
+
     if (arrayEquals(updatedMatrix, updatedTarget)) {
       while (arrayEquals(updatedMatrix, updatedTarget)) {
         updatedTarget = shuffle(newMatrix);
@@ -78,9 +71,8 @@ function App() {
       matrix: updatedMatrix,
       target: updatedTarget
     })
-    setMatrix(newMatrix);
-    setTarget(updatedTarget);
     setNumberSolved(numberSolved + 1);
+    setIsSolved(false);
     setMoveCount(0);
     console.log(newMatrix, updatedTarget)
   }
@@ -90,31 +82,31 @@ function App() {
   }
 
   const slide = (moveType) => {
-    let updatedMatrix = matrix;
+    let updatedMatrix = game.matrix;
     let updatedGridClasses;
     switch (moveType) {
       case 'rotateLeft':
-        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[5],  game.matrix[0], game.matrix[4], game.matrix[8],  game.matrix[3], game.matrix[6], game.matrix[7]]
+        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[5], game.matrix[0], game.matrix[4], game.matrix[8], game.matrix[3], game.matrix[6], game.matrix[7]]
         updatedGridClasses = [classes.Grid, classes.RotateLeft];
         break;
       case 'rotateRight':
-        updatedMatrix = [game.matrix[3], game.matrix[0], game.matrix[1],  game.matrix[6], game.matrix[4], game.matrix[2],  game.matrix[7], game.matrix[8], game.matrix[5]]
+        updatedMatrix = [game.matrix[3], game.matrix[0], game.matrix[1], game.matrix[6], game.matrix[4], game.matrix[2], game.matrix[7], game.matrix[8], game.matrix[5]]
         updatedGridClasses = [classes.Grid, classes.RotateRight];
         break;
       case 'moveUp':
-        updatedMatrix = [game.matrix[3], game.matrix[4], game.matrix[5],  game.matrix[6], game.matrix[7], game.matrix[8],  game.matrix[0], game.matrix[1], game.matrix[2]]
+        updatedMatrix = [game.matrix[3], game.matrix[4], game.matrix[5], game.matrix[6], game.matrix[7], game.matrix[8], game.matrix[0], game.matrix[1], game.matrix[2]]
         updatedGridClasses = [classes.Grid, classes.MoveUp];
         break;
       case 'moveDown':
-        updatedMatrix = [game.matrix[6], game.matrix[7], game.matrix[8],  game.matrix[0], game.matrix[1], game.matrix[2],  game.matrix[3], game.matrix[4], game.matrix[5]]
+        updatedMatrix = [game.matrix[6], game.matrix[7], game.matrix[8], game.matrix[0], game.matrix[1], game.matrix[2], game.matrix[3], game.matrix[4], game.matrix[5]]
         updatedGridClasses = [classes.Grid, classes.MoveDown];
         break;
       case 'moveLeft':
-        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[0],  game.matrix[4], game.matrix[5], game.matrix[3],  game.matrix[7], game.matrix[8], game.matrix[6]]
+        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[0], game.matrix[4], game.matrix[5], game.matrix[3], game.matrix[7], game.matrix[8], game.matrix[6]]
         updatedGridClasses = [classes.Grid, classes.MoveLeft];
         break;
       case 'moveRight':
-        updatedMatrix = [game.matrix[2], game.matrix[0], game.matrix[1],  game.matrix[5], game.matrix[3], game.matrix[4],  game.matrix[8], game.matrix[6], game.matrix[7]]
+        updatedMatrix = [game.matrix[2], game.matrix[0], game.matrix[1], game.matrix[5], game.matrix[3], game.matrix[4], game.matrix[8], game.matrix[6], game.matrix[7]]
         updatedGridClasses = [classes.Grid, classes.MoveRight];
         break;
       default:
@@ -124,19 +116,18 @@ function App() {
       ...game,
       matrix: updatedMatrix
     })
-    setMatrix(updatedMatrix);
     setGridClasses(updatedGridClasses);
     setMoveCount(moveCount + 1);
     setTimeout(resetGridClasses, resetDelay);
     if (arrayEquals(updatedMatrix, game.target)) {
       console.log("Solved!");
       setIsSolved(true);
-    } 
+    }
   }
 
   useInterval(() => {
     if (isAutoplay) {
-      if (arrayEquals(matrix, target)) {
+      if (arrayEquals(game.matrix, game.target)) {
         console.log("Solved!");
         setIsAutoplay(false);
         setIsSolved(true);
@@ -189,12 +180,21 @@ function App() {
     setIsAutoplay(updatedToggle);
   }
 
+  const startGameHandler = (difficulty) => {
+    newGame();
+    setIsStart(false);
+  }
+
+  const toggleStart = () => {
+    setIsStart(true);
+  }
+
   return (
     <div className={classes.App}>
-      <Modal>
-        <p>
-          Solved!
-        </p>
+      <Modal show={isStart}>
+        <h2>Select Difficulty:</h2>
+        <Button onClick={() => startGameHandler('normal')}>Normal</Button><br />
+        <Button onClick={() => startGameHandler('hard')}>Hard</Button>
       </Modal>
       <Modal show={isMenuOn} modalClosed={toggleMenu}>
         <h1>Menu</h1>
@@ -217,7 +217,7 @@ function App() {
           <p>Game ID: </p>
           <p>Number Solved: {numberSolved}</p>
           <p>Moves: {moveCount}</p>
-          <button onClick={newGame}>New Game</button>
+          <button onClick={toggleStart}>New Game</button>
           <button onClick={randomShuffle}>Toggle Autosolve</button>
         </div>
         <div className={classes.Controls}>

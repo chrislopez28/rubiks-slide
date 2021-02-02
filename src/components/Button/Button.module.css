@@ -9,11 +9,9 @@
     border: 2px solid black;
     border-radius: 5px;
     margin: 1px;
-    /* width: calc(100%); */
-    width: 2rem;
     display: inline-block;
-    height: 2rem;
-    width: 2rem;
+    /* height: 2rem;
+    width: 2rem; */
 }
 
 .Button:hover {
