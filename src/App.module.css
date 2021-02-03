@@ -4,6 +4,11 @@
   background-color: rgba(247, 255, 249, 0.871);
 }
 
+.Grid {
+  border: 2px solid black;
+  padding: 2px;
+}
+
 .GridContainer {
   height: 60vh;
   display: flex;
@@ -11,28 +16,11 @@
   justify-content: center;
 }
 
-.RotateLeft {
-  animation: rotateLeft 0.25s linear;
-}
-
-.RotateRight {
-  animation: rotateRight 0.25s linear;
-}
-
-.MoveUp {
-  animation: moveUp 0.25s linear;
-}
-
-.MoveDown {
-  animation: moveDown 0.25s linear;
-}
-
-.MoveLeft {
-  animation: moveLeft 0.25s linear;
-}
-
-.MoveRight {
-  animation: moveRight 0.25s linear;
+.NextButton {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60vh;
 }
 
 .Row {
@@ -64,6 +52,31 @@
 
 .TargetTitle {
   font: 1rem;
+}
+
+
+.RotateLeft {
+  animation: rotateLeft 0.25s linear;
+}
+
+.RotateRight {
+  animation: rotateRight 0.25s linear;
+}
+
+.MoveUp {
+  animation: moveUp 0.25s linear;
+}
+
+.MoveDown {
+  animation: moveDown 0.25s linear;
+}
+
+.MoveLeft {
+  animation: moveLeft 0.25s linear;
+}
+
+.MoveRight {
+  animation: moveRight 0.25s linear;
 }
 
 @keyframes rotateLeft {

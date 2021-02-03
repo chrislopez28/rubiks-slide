@@ -1,34 +1,44 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 
 import classes from './App.module.css';
 import { arrayEquals, shuffle } from './util/array';
 import useInterval from './util/useInterval';
+import * as actions from './store/actions/session';
 
 import Button from './components/Button/Button';
 import Grid from './components/Grid/Grid';
 import Modal from './components/UI/Modal/Modal';
 
-function App() {
-
-  const [numberColors] = useState(2);
-  const [numberSquaresMax] = useState(5);
+function App(props) {
 
   const [game, setGame] = useState({
-    matrix: [1, 0, 1, 0, 0, 0, 0, 0, 0],
-    target: [1, 1, 0, 0, 0, 0, 0, 0, 0]
+    matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    target: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    moveCount: 0
   })
 
-  const [isStart, setIsStart] = useState(true);
-  const [moveCount, setMoveCount] = useState(0);
-  const [isAutoplay, setIsAutoplay] = useState(false);
-  const [numberSolved, setNumberSolved] = useState(0);
-  const [isMenuOn, setIsMenuOn] = useState(false);
+  const [gameSettings, setGameSettings] = useState({
+    isAutoplay: false,
+    isStart: true,
+    showMenu: false,
+    difficulty: 'normal',
+    resetDelay: 500
+  })
+
+  const [movement, setMovement] = useState('')
+
   const [gridClasses, setGridClasses] = useState([classes.Grid])
-  const resetDelay = 500;
-
-
 
   function newGame() {
+    let numberColors = 1;
+    let numberSquaresMax = 4;
+
+  if (props.difficulty === 'hard') {
+      numberColors = 2;
+      numberSquaresMax = 5;
+    }
+
     let numColors = Math.floor(Math.random() * numberColors) + 1;
     let numSquaresMax = Math.floor(Math.random() * (numberSquaresMax - 1)) + 2;
     let randomColor;
@@ -68,14 +78,17 @@ function App() {
     setGame({
       matrix: updatedMatrix,
       target: updatedTarget, 
-      isSolved: false
+      isSolved: false,
+      moveCount: 0
     })
-    setNumberSolved(numberSolved + 1);
-    setMoveCount(0);
   }
 
   const resetGridClasses = () => {
     setGridClasses([classes.Grid]);
+  }
+
+  const resetMovement = () => {
+    setMovement('');
   }
 
   const slide = (moveType) => {
@@ -115,24 +128,33 @@ function App() {
     if (arrayEquals(updatedMatrix, game.target)) {
       console.log("Solved!");
       isSolved = true;
+      props.incrementSolved();
     }
+
+    let newMoveCount = game.moveCount + 1;
 
     setGame({
       ...game,
       matrix: updatedMatrix,
-      isSolved
+      isSolved,
+      moveCount: newMoveCount
     })
+    setMovement(moveType)
+    setTimeout(resetMovement, 500);
 
     setGridClasses(updatedGridClasses);
-    setMoveCount(moveCount + 1);
-    setTimeout(resetGridClasses, resetDelay);
-
+    setTimeout(resetGridClasses, setGameSettings.resetDelay);
   }
 
   useInterval(() => {
-    if (isAutoplay) {
+    if (gameSettings.isAutoplay) {
       if (!game.isSolved) {
         randomize();
+      } else {
+        setGameSettings({
+          ...gameSettings,
+          isAutoplay: false
+        })
       }
     }
   })
@@ -170,54 +192,63 @@ function App() {
     }
   }
 
-  const toggleMenu = () => {
-    const updatedMenuToggle = !isMenuOn;
-    setIsMenuOn(updatedMenuToggle);
-  }
-
   const randomShuffle = () => {
-    const updatedToggle = !isAutoplay;
-    setIsAutoplay(updatedToggle);
+    const isAutoplay = !gameSettings.isAutoplay;
+    setGameSettings({
+      ...gameSettings,
+      isAutoplay: isAutoplay
+    })
   }
 
   const startGameHandler = (difficulty) => {
+    console.log(difficulty)
+    props.setDifficulty(difficulty)
+    setGameSettings({
+      ...gameSettings
+    })
     newGame();
-    setIsStart(false);
+    toggleStart();
   }
 
   const toggleStart = () => {
-    setIsStart(true);
+    let isStart = !gameSettings.isStart;
+    setGameSettings({
+      ...gameSettings,
+      isStart: isStart
+    })
+  }
+
+  // Next Arrow
+  let next = null;
+  if (game.isSolved) {
+    next = <Button onClick={() => newGame()}>Next &rarr;</Button>
   }
 
   return (
     <div className={classes.App}>
-      <Modal show={isStart}>
+      <Modal show={gameSettings.isStart} modalClosed={gameSettings.toggleStart}>
         <h2>Select Difficulty:</h2>
         <Button onClick={() => startGameHandler('normal')}>Normal</Button><br />
-        <Button onClick={() => startGameHandler('hard')}>Hard</Button>
-      </Modal>
-      <Modal show={isMenuOn} modalClosed={toggleMenu}>
-        <h1>Menu</h1>
-        <h3>Difficulty</h3>
-        <input type="radio" value="easy" name="difficulty" />
-        <label htmlFor="easy">Easy</label>
-
-        <input type="radio" value="moderate" name="difficulty" />
-        <label htmlFor="moderate">Moderate</label>
-
-        <input type="radio" value="hard" name="difficulty" />
-        <label htmlFor="hard">Hard</label>
+        <Button onClick={() => startGameHandler('hard')}>Hard</Button><br />
+        <Button onClick={toggleStart}>Cancel</Button>
       </Modal>
       <h1>Rubik's Slide Simulator</h1>
+      <div className={classes.Message}>
+        {  }
+      </div>
       <div className={classes.GridContainer}>
-        <Grid matrix={game.matrix} gridClasses={gridClasses} />
+        <Grid matrix={game.matrix} movement={movement} />
+      </div>
+      <div className={classes.NextButton}>
+        { next }
       </div>
       <div className={classes.ControlBar}>
         <div className={classes.Panel}>
           <p>Game ID: </p>
-          <p>Number Solved: {numberSolved}</p>
-          <p>Moves: {moveCount}</p>
-          <button onClick={toggleStart}>New Game</button>
+          <p>Difficulty: {props.difficulty} </p>
+          <p>Number Solved: {props.numberSolved}</p>
+          <p>Moves: {game.moveCount}</p>
+          <button onClick={toggleStart}>New Session</button>
           <button onClick={randomShuffle}>Toggle Autosolve</button>
         </div>
         <div className={classes.Controls}>
@@ -243,4 +274,19 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    numberSolved: state.session.numberSolved,
+    numberAttempted: state.session.numberAttempted,
+    difficulty: state.session.difficulty
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setDifficulty: (difficulty) => dispatch(actions.setDifficulty(difficulty)),
+    incrementSolved: () => dispatch(actions.incrementSolved())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

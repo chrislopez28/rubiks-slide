@@ -1,7 +1,6 @@
 
 .Grid {
     padding: 2px;
-    border: 1px solid black;
 }
 
 .RotateLeft {
@@ -44,11 +43,11 @@
   }
   
   33% {
-    transform: rotate(-15deg);
+    transform: rotate(-10deg);
   }
   
   66% {
-    transform: rotate(-45deg);
+    transform: rotate(-20deg);
   }
 }
 
@@ -59,11 +58,11 @@
   }
   
   33% {
-    transform: rotate(15deg);
+    transform: rotate(10deg);
   }
   
   66% {
-    transform: rotate(45deg);
+    transform: rotate(20deg);
   }
 }
 

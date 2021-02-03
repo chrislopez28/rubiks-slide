@@ -5,9 +5,34 @@ import classes from './Grid.module.css';
 
 const Grid = props => {
     let gridClasses = ''
-    if (props.gridClasses) {
-        gridClasses = props.gridClasses.join(' ')
+
+    switch (props.movement) {
+        case 'rotateLeft':
+            gridClasses = [classes.Grid, classes.RotateLeft];
+            break;
+        case 'rotateRight':
+            gridClasses = [classes.Grid, classes.RotateRight];
+            break;
+        case 'moveUp':
+            gridClasses = [classes.Grid, classes.MoveUp];
+            break;
+        case 'moveDown':
+            gridClasses = [classes.Grid, classes.MoveDown];
+            break;
+        case 'moveLeft':
+            gridClasses = [classes.Grid, classes.MoveLeft];
+            break;
+        case 'moveRight':
+            gridClasses = [classes.Grid, classes.MoveRight];
+            break;
+        default:
+            break;
     }
+
+    if (gridClasses) {
+        gridClasses = gridClasses.join(' ')
+    }
+    
     return (
         <div className={gridClasses}>
             <div className={classes.Row}>
