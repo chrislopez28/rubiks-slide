@@ -228,7 +228,7 @@ function App(props) {
         <button onClick={toggleStart}>Cancel</button>
       </Modal>
       <div className={classes.Top}>
-        <h1>Rubik's Slide Simulator</h1>
+        <div className={classes.Title}>Rubik's Slide Simulator</div>
         <div className={classes.Score}>
           <div>Solved: {props.numberSolved}</div>
           <div>Skipped: {props.numberSkipped}</div>
@@ -238,10 +238,6 @@ function App(props) {
           Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)} <br />
           (Game ID: {game.gameId})
         </p>
-      </div>
-
-      <div className={classes.Message}>
-        {}
       </div>
 
       <div className={classes.GridContainer}>

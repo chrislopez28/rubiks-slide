@@ -1,7 +1,7 @@
 .Square {
     border: 3px solid black;
-    height: 3rem;
-    width: 3rem;
+    height: 2rem;
+    width: 2rem;
     box-sizing: border-box;
     margin: 0px 2px;
     display: inline-block;
@@ -32,4 +32,16 @@
     background-color: yellow;
 }
 
+@media (min-height: 600px) {
+    .Square {
+        height: 3rem;
+        width: 3rem;
+    }
+}
 
+@media (min-height: 720px) {
+    .Square {
+        height: 4rem;
+        width: 4rem;
+    }
+}
