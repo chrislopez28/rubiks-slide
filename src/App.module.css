@@ -16,7 +16,7 @@
 }
 
 .GameId {
-  font-size: 0.75rem;
+  font-size: 0.80rem;
 }
 
 .Message {
@@ -39,10 +39,6 @@
 .NextButton {
   height: 10vh;
   z-index: 100;
-  /* position: absolute;
-  left: 0;
-  right: 0;
-  top: 65vh; */
 }
 
 .Row {
@@ -66,7 +62,6 @@
 
 .Panel {
   width: 25vw;
-
 }
 
 .Panel p {

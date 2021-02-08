@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 
-// import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
-import "@reach/dialog/styles.css";
-
 import classes from './App.module.css';
 import { arrayEquals, shuffle } from './util/array';
-import { decodeGame, encodeGame } from './util/gridEncoding';
+import { encodeGame } from './util/gridEncoding';
 import useInterval from './util/useInterval';
 import * as actions from './store/actions/session';
 
@@ -30,7 +27,8 @@ function App(props) {
     isStart: true,
     showMenu: false,
     difficulty: 'normal',
-    resetDelay: 500
+    resetDelay: 500,
+    isFirstLoad: true
   })
 
   const [movement, setMovement] = useState('')
@@ -49,7 +47,7 @@ function App(props) {
     }
   })
 
-  // Functions
+  // Function Declarations
   function newGame(difficulty) {
     let numberColors = 1;
     let numberSquaresMax = 4;
@@ -114,10 +112,6 @@ function App(props) {
     })
   }
 
-  function resetMovement() {
-    setMovement('');
-  }
-
   function slide(moveType) {
     let updatedMatrix = game.matrix;
     let newMoveCount = game.moveCount + 1;
@@ -162,7 +156,7 @@ function App(props) {
       moveCount: newMoveCount
     })
     setMovement(moveType)
-    setTimeout(resetMovement, 500);
+    setTimeout(() => setMovement(''), 500);
   }
 
   function randomize() {
@@ -221,9 +215,8 @@ function App(props) {
   // Conditional JSX Elements
   let next = null;
   if (game.isSolved) {
-    next = <Button onClick={() => newGame(props.difficulty)}>Next &rarr;</Button>
+    next = <Button size="xxlarge" next onClick={() => newGame(props.difficulty)}>Next &rarr;</Button>
   }
-
 
   // JSX
   return (
@@ -234,9 +227,6 @@ function App(props) {
         <Button onClick={() => startGameHandler('hard')}>Hard</Button><br /><br />
         <button onClick={toggleStart}>Cancel</button>
       </Modal>
-      {/* <Dialog isOpen={gameSettings.isStart} onDismiss={toggleStart}>
-
-      </Dialog> */}
       <div className={classes.Top}>
         <h1>Rubik's Slide Simulator</h1>
         <div className={classes.Score}>
@@ -245,9 +235,7 @@ function App(props) {
           <div>Moves Current Puzzle: {game.moveCount}</div>
         </div>
         <p className={classes.GameId}>
-          Diff: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)}
-        </p>
-        <p className={classes.GameId}>
+          Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)} <br />
           (Game ID: {game.gameId})
         </p>
       </div>
@@ -255,12 +243,15 @@ function App(props) {
       <div className={classes.Message}>
         {}
       </div>
+
       <div className={classes.GridContainer}>
         <Grid matrix={game.matrix} movement={movement} isSolved={game.isSolved} />
       </div>
+      
       <div className={classes.NextButton}>
         {next}
       </div>
+      
       <div className={classes.ControlBar}>
         <div className={classes.Panel}>
           <div>

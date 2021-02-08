@@ -26,6 +26,10 @@ const Button = (props) => {
         stylesArray.push(classes.Normal)
     }
 
+    if (props.next) {
+        stylesArray.push(classes.Next)
+    }
+
     if (props.on) {
         stylesArray.push(classes.On)
     }

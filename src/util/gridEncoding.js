@@ -1,6 +1,6 @@
 export function decodeGame(gameId) {
     if ((gameId.length !== 18) || (typeof gameId === 'string')) {
-        throw 'gameId should should be a string of length 18.';
+        throw new Error('gameId should should be a string of length 18.');
     }
 
     let startGrid = [];
@@ -24,7 +24,7 @@ export function encodeGame(startGrid, targetGrid) {
         (startGrid.length !== 9) ||
         (targetGrid.length !== 9)
     ) {
-        throw 'startGrid and targetGrid should be arrays of length 9.'
+        throw new Error('startGrid and targetGrid should be arrays of length 9.');
     }
 
     let gameId = "";
