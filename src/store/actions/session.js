@@ -13,8 +13,20 @@ export const setDifficulty = (difficulty) => {
 
 }
 
+export const incrementSkipped = () => {
+    return {
+        type: actionTypes.INCREMENT_SKIPPED
+    }
+}
+
 export const incrementSolved = () => {
     return {
         type: actionTypes.INCREMENT_SOLVED
+    }
+}
+
+export const initializeSession = () => {
+    return {
+        type: actionTypes.INITIALIZE_SESSION
     }
 }

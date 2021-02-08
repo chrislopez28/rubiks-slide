@@ -4,7 +4,7 @@ import Square from '../Square/Square';
 import classes from './Grid.module.css';
 
 const Grid = props => {
-    let gridClasses = ''
+    let gridClasses = []
 
     switch (props.movement) {
         case 'rotateLeft':
@@ -29,10 +29,14 @@ const Grid = props => {
             break;
     }
 
+    if (props.isSolved) {
+        gridClasses.push(classes.Solved)
+    }
+
     if (gridClasses) {
         gridClasses = gridClasses.join(' ')
     }
-    
+
     return (
         <div className={gridClasses}>
             <div className={classes.Row}>

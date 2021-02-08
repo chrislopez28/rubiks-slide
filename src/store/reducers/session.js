@@ -3,7 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     difficulty: 'normal',
     numberSolved: 0,
-    numberAttempted: 0
+    numberSkipped: 0
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,7 +12,7 @@ const reducer = (state = initialState, action) => {
             return {
                 difficulty: 'normal',
                 numberSolved: 0,
-                numberAttempted: 0
+                numberSkipped: 0
             }
         case actionTypes.SET_DIFFICULTY_NORMAL:
             return {
@@ -24,11 +24,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 difficulty: 'hard'
             }
-        case actionTypes.INCREMENT_ATTEMPTED:
-            let updatedAttempted = state.numberAttempted + 1;
+        case actionTypes.INCREMENT_SKIPPED:
+            let updatedSkipped = state.numberSkipped + 1;
             return {
                 ...state,
-                numberAttempted: updatedAttempted
+                numberSkipped: updatedSkipped
             }
         case actionTypes.INCREMENT_SOLVED:
             let updatedASolved = state.numberSolved + 1;

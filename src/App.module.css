@@ -1,7 +1,26 @@
 .App {
+  min-width: 300px;
   text-align: center;
   overflow: hidden;
-  background-color: rgba(247, 255, 249, 0.871);
+  background-color: rgba(247, 255, 249);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.Score {
+  text-align: left;
+  margin: 0 auto;
+  width: 50vw;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.GameId {
+  font-size: 0.75rem;
+}
+
+.Message {
+  height: 5vh;
 }
 
 .Grid {
@@ -10,17 +29,20 @@
 }
 
 .GridContainer {
-  height: 60vh;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 30vh;
 }
 
 .NextButton {
-  position: absolute;
+  height: 10vh;
+  z-index: 100;
+  /* position: absolute;
   left: 0;
   right: 0;
-  top: 60vh;
+  top: 65vh; */
 }
 
 .Row {
@@ -32,17 +54,19 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(190, 190, 190, 0.871);
-  border-top: 3px solid grey;
+  z-index: 50;
+  background-color: rgba(229, 231, 219, 1);
+  border-top: 2px solid rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: space-between;
   padding: 0.25rem 0rem;
   align-items: center;
-  height: 30vh;
+  min-height: 20vh;
 }
 
 .Panel {
-  width: 20vw;
+  width: 25vw;
+
 }
 
 .Panel p {
@@ -52,120 +76,5 @@
 
 .TargetTitle {
   font: 1rem;
+  font-weight: bold;
 }
-
-
-.RotateLeft {
-  animation: rotateLeft 0.25s linear;
-}
-
-.RotateRight {
-  animation: rotateRight 0.25s linear;
-}
-
-.MoveUp {
-  animation: moveUp 0.25s linear;
-}
-
-.MoveDown {
-  animation: moveDown 0.25s linear;
-}
-
-.MoveLeft {
-  animation: moveLeft 0.25s linear;
-}
-
-.MoveRight {
-  animation: moveRight 0.25s linear;
-}
-
-@keyframes rotateLeft {
-  
-  0% {
-    transform: rotate(0deg);
-  }
-  
-  33% {
-    transform: rotate(-3deg);
-  }
-  
-  66% {
-    transform: rotate(-7deg);
-  }
-}
-
-@keyframes rotateRight {
-  
-  0% {
-    transform: rotate(0deg);
-  }
-  
-  33% {
-    transform: rotate(3deg);
-  }
-  
-  66% {
-    transform: rotate(7deg);
-  }
-}
-
-@keyframes moveUp {
-  
-  0% {
-    transform: translateY(0px);
-  }
-  
-  33% {
-    transform: translateY(-4px);
-  }
-  
-  66% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes moveDown {
-  
-  0% {
-    transform: translateY(0px);
-  }
-  
-  33% {
-    transform: translateY(4px);
-  }
-  
-  66% {
-    transform: translateY(8px);
-  }
-}
-
-@keyframes moveLeft {
-  
-  0% {
-    transform: translateX(0px);
-  }
-  
-  33% {
-    transform: translateX(-4px);
-  }
-  
-  66% {
-    transform: translateX(-8px);
-  }
-}
-
-@keyframes moveRight {
-  
-  0% {
-    transform: translateX(0px);
-  }
-  
-  33% {
-    transform: translateX(4px);
-  }
-  
-  66% {
-    transform: translateX(8px);
-  }
-}
-
