@@ -6,7 +6,7 @@
     font: inherit;
     border: 2px solid black;
     border-radius: 5px;
-    margin: 1px;
+    margin: 0px;
     display: inline-block;
 }
 
@@ -16,6 +16,18 @@
 
 .Button:active {
     background-color: #1056e3;
+}
+
+.Control {
+    height: 2.25rem;
+    width: 2.25rem;
+    font-size: large;
+    font-weight: bold;
+}
+
+.Menu {
+    height: 2rem;
+    margin: 2px 0;
 }
 
 .Normal {
@@ -28,7 +40,7 @@
     height: 2rem;
     font-weight: bold;
 }
-
+/* 
 .Small {
     font-size: x-small;
 }
@@ -43,7 +55,7 @@
 
 .XXLarge {
     font-size: xx-large;
-}
+} */
 
 .On,
 .On:active,

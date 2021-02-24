@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import classes from './App.module.css';
@@ -21,6 +21,8 @@ function App(props) {
     isSolved: null,
     moveCount: 0
   })
+
+  const gameRef = useRef(game);
 
   const [gameSettings, setGameSettings] = useState({
     isAutoplay: false,
@@ -46,6 +48,27 @@ function App(props) {
       }
     }
   })
+
+  // TODO: Keyhandlers
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'w' || e.key === 'W' || e.keyCode === 38) slide('moveUp', true)
+    if (e.key === 's' || e.key === 'S' || e.keyCode === 40) slide('moveDown', true)
+    if (e.key === 'a' || e.key === 'A' || e.keyCode === 37) slide('moveLeft', true)
+    if (e.key === 'd' || e.key === 'D' || e.keyCode === 39) slide('moveRight', true)
+    if (e.key === 'q' || e.key === 'Q' || e.keyCode === 33) slide('rotateLeft', true)
+    if (e.key === 'e' || e.key === 'E' || e.keyCode === 34) slide('rotateRight', true)
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    };
+  })
+
+
 
   // Function Declarations
   function newGame(difficulty) {
@@ -103,44 +126,73 @@ function App(props) {
       }
     }
 
-    setGame({
+    const newGame = {
       matrix: updatedMatrix,
       target: updatedTarget,
       gameId: encodeGame(updatedMatrix, updatedTarget),
       isSolved: false,
       moveCount: 0
-    })
+    }
+
+    setGame(newGame)
+    gameRef.current = newGame;
+    console.log(gameRef.current)
   }
 
-  function slide(moveType) {
-    let updatedMatrix = game.matrix;
-    let newMoveCount = game.moveCount + 1;
-    let isSolved = false;
+  function slide(moveType, referenceMatrix = false) {
+    let matrix = game.matrix;
+    let target = game.target;
+
+    if (referenceMatrix) {
+      matrix = gameRef.current.matrix;
+      target = gameRef.current.target;
+    }
+
+    console.log(matrix)
 
     switch (moveType) {
       case 'rotateLeft':
-        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[5], game.matrix[0], game.matrix[4], game.matrix[8], game.matrix[3], game.matrix[6], game.matrix[7]]
+        matrix = [matrix[1], matrix[2], matrix[5], matrix[0], matrix[4], matrix[8], matrix[3], matrix[6], matrix[7]]
         break;
       case 'rotateRight':
-        updatedMatrix = [game.matrix[3], game.matrix[0], game.matrix[1], game.matrix[6], game.matrix[4], game.matrix[2], game.matrix[7], game.matrix[8], game.matrix[5]]
+        matrix = [matrix[3], matrix[0], matrix[1], matrix[6], matrix[4], matrix[2], matrix[7], matrix[8], matrix[5]]
         break;
       case 'moveUp':
-        updatedMatrix = [game.matrix[3], game.matrix[4], game.matrix[5], game.matrix[6], game.matrix[7], game.matrix[8], game.matrix[0], game.matrix[1], game.matrix[2]]
+        matrix = [matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[0], matrix[1], matrix[2]]
         break;
       case 'moveDown':
-        updatedMatrix = [game.matrix[6], game.matrix[7], game.matrix[8], game.matrix[0], game.matrix[1], game.matrix[2], game.matrix[3], game.matrix[4], game.matrix[5]]
+        matrix = [matrix[6], matrix[7], matrix[8], matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5]]
         break;
       case 'moveLeft':
-        updatedMatrix = [game.matrix[1], game.matrix[2], game.matrix[0], game.matrix[4], game.matrix[5], game.matrix[3], game.matrix[7], game.matrix[8], game.matrix[6]]
+        matrix = [matrix[1], matrix[2], matrix[0], matrix[4], matrix[5], matrix[3], matrix[7], matrix[8], matrix[6]]
         break;
       case 'moveRight':
-        updatedMatrix = [game.matrix[2], game.matrix[0], game.matrix[1], game.matrix[5], game.matrix[3], game.matrix[4], game.matrix[8], game.matrix[6], game.matrix[7]]
+        matrix = [matrix[2], matrix[0], matrix[1], matrix[5], matrix[3], matrix[4], matrix[8], matrix[6], matrix[7]]
         break;
       default:
         break;
     }
 
-    if (arrayEquals(updatedMatrix, game.target)) {
+    console.log(matrix, target)
+    updateMatrix(matrix, true)
+
+    setMovement(moveType)
+    setTimeout(() => setMovement(''), 500);
+  }
+
+  function updateMatrix(updatedMatrix, useGameRef = false) {
+    let newMoveCount = game.moveCount + 1;
+    let isSolved = false;
+    let prevGame = game;
+    let target = game.target
+
+    if (useGameRef) {
+      newMoveCount = gameRef.current.moveCount + 1;
+      prevGame = gameRef.current;
+      target = gameRef.current.target;
+    }
+
+    if (arrayEquals(updatedMatrix, target)) {
       isSolved = true;
       if (gameSettings.isAutoplay) {
         props.incrementSkipped()
@@ -149,14 +201,16 @@ function App(props) {
       }
     }
 
-    setGame({
-      ...game,
+    const updatedGame = {
+      ...prevGame,
       matrix: updatedMatrix,
       isSolved,
       moveCount: newMoveCount
-    })
-    setMovement(moveType)
-    setTimeout(() => setMovement(''), 500);
+    }
+
+    setGame(updatedGame);
+    gameRef.current = updatedGame;
+
   }
 
   function randomize() {
@@ -223,10 +277,11 @@ function App(props) {
     <div className={classes.App}>
       <Modal show={gameSettings.isStart} modalClosed={toggleStart}>
         <h2>Select Difficulty:</h2>
-        <Button onClick={() => startGameHandler('normal')}>Normal</Button><br />
-        <Button onClick={() => startGameHandler('hard')}>Hard</Button><br /><br />
+        <Button size="menu"  onClick={() => startGameHandler('normal')}>Normal</Button><br />
+        <Button size="menu"  onClick={() => startGameHandler('hard')}>Hard</Button><br /><br />
         <button onClick={toggleStart}>Cancel</button>
       </Modal>
+
       <div className={classes.Top}>
         <div className={classes.Title}>Rubik's Slide Simulator</div>
         <div className={classes.Score}>
@@ -234,48 +289,55 @@ function App(props) {
           <div>Skipped: {props.numberSkipped}</div>
           <div>Moves Current Puzzle: {game.moveCount}</div>
         </div>
-        <p className={classes.GameId}>
+        {/* <p className={classes.GameId}>
           Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)} <br />
           (Game ID: {game.gameId})
-        </p>
+        </p> */}
       </div>
 
       <div className={classes.GridContainer}>
         <Grid matrix={game.matrix} movement={movement} isSolved={game.isSolved} />
       </div>
-      
+
       <div className={classes.NextButton}>
         {next}
       </div>
-      
+
       <div className={classes.ControlBar}>
         <div className={classes.Panel}>
           <div>
           </div>
-          <Button size="small" normal onClick={toggleStart}>New Session</Button>
-          <Button size="small" normal onClick={() => {
+          <Button size="menu" normal onClick={toggleStart}>Restart</Button>
+          <Button size="menu" normal onClick={() => {
             props.incrementSkipped();
             newGame(props.difficulty);
           }}>Skip</Button>
-          <Button size="small" normal onClick={toggleAutoplay} on={gameSettings.isAutoplay}>Autosolve</Button>
+          <Button size="menu" normal onClick={toggleAutoplay} on={gameSettings.isAutoplay}>Solve</Button>
         </div>
         <div className={classes.Controls}>
-          <div>
-            <Button size="xxlarge" onClick={() => slide('rotateLeft')} disabled={game.isSolved}>&#10226;</Button>
-            <Button size="large" onClick={() => slide('moveUp')} disabled={game.isSolved}>&#129045;</Button>
-            <Button onClick={() => slide('rotateRight')} disabled={game.isSolved}>&#10227;</Button>
+          <div className={classes.ControlRow}>
+            <Button size="control" onClick={() => slide('moveUp')} disabled={game.isSolved}>&#129045;</Button>
+          </div>
+          <div className={classes.ControlRow}>
+            <Button size="control" onClick={() => slide('moveLeft')} disabled={game.isSolved}>&#129044;</Button>
+            <Button size="control" disabled> </Button>
+            <Button size="control" onClick={() => slide('moveRight')} disabled={game.isSolved}>&#129046;</Button>
           </div>
           <div>
-            <Button onClick={() => slide('moveLeft')} disabled={game.isSolved}>&#129044;</Button>
-            <Button onClick={() => slide('moveRight')} disabled={game.isSolved}>&#129046;</Button>
+            <Button size="control" onClick={() => slide('moveDown')} disabled={game.isSolved}>&#129047;</Button>
           </div>
-          <div>
-            <Button onClick={() => slide('moveDown')} disabled={game.isSolved}>&#129047;</Button>
+          <div className={classes.ControlRow}>
+            
+          </div>
+          <div className={classes.ControlRow}>
+            <Button size="control" onClick={() => slide('rotateLeft')} disabled={game.isSolved}>&#10226;</Button>
+            <span className={classes.Spacer}></span>
+            <Button size="control" onClick={() => slide('rotateRight')} disabled={game.isSolved}>&#10227;</Button>
           </div>
         </div>
         <div className={classes.Panel}>
           <div className={classes.TargetTitle}>Target</div>
-          <Grid matrix={game.target} mini />
+          <Grid matrix={gameRef.current.target} mini />
         </div>
       </div>
     </div>

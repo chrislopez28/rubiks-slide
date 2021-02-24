@@ -3,7 +3,8 @@
   text-align: center;
   overflow: hidden;
   background-color: rgba(247, 255, 249);
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 14px;
 }
 
 .Top {
@@ -69,8 +70,21 @@
   width: 100%;
 }
 
+.ControlRow {
+  display: flex;
+  justify-content: center;
+}
+
+.Spacer {
+  width: 4rem;
+}
+
 .Panel {
   width: 25vw;
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .Panel p {

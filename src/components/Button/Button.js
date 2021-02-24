@@ -6,11 +6,11 @@ const Button = (props) => {
     let stylesArray = [classes.Button];
 
     switch (props.size) {
-        case 'small':
-            stylesArray.push(classes.Small);
+        case 'menu':
+            stylesArray.push(classes.Menu);
             break;
-        case 'large':
-            stylesArray.push(classes.Large);
+        case 'control':
+            stylesArray.push(classes.Control);
             break;
         case 'xLarge':
             stylesArray.push(classes.XLarge);
