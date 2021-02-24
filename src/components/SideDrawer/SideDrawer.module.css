@@ -1,0 +1,45 @@
+.SideDrawer {
+    position: fixed;
+    width: 280px;
+    max-width: 70%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background-color: rgba(160, 193, 227, 0.75);
+    padding: 32px 16px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease-out;
+    color: white;
+}
+
+/* @media (min-width: 500px) {
+    .SideDrawer {
+        display: none;
+    }
+} */
+
+.SideDrawer h2 {
+    color: black
+}
+
+.Open {
+    transform: translateX(0);
+}
+
+.Close {
+    transform: translateX(-100%);
+}
+
+.CloseButton {
+    background-color: #e3ce30;
+    border: none;
+    color: black;
+    cursor: pointer;
+    font: inherit;
+    padding: 8px 8px;
+    margin: 8px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 5px;
+}

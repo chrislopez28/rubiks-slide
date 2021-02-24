@@ -19,7 +19,6 @@
 }
 
 
-
 .Control {
     height: 2.25rem;
     width: 2.25rem;
@@ -30,6 +29,7 @@
 .Menu {
     height: 2rem;
     margin: 2px 0;
+    width: 100%;
 }
 
 .Normal {
@@ -39,8 +39,11 @@
 }
 
 .Next {
-    height: 2rem;
+    height: 3rem;
+    width: 60%;
     font-weight: bold;
+    font-size: 1.5rem;
+    background-color: rgb(255, 81, 81);
 }
 /* 
 .Small {

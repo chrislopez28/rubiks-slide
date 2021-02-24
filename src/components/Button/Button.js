@@ -12,11 +12,8 @@ const Button = (props) => {
         case 'control':
             stylesArray.push(classes.Control);
             break;
-        case 'xLarge':
-            stylesArray.push(classes.XLarge);
-            break;
-        case 'xxLarge':
-            stylesArray.push(classes.XXLarge);
+        case 'next':
+            stylesArray.push(classes.Next);
             break;
         default:
             break;

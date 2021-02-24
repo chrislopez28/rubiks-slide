@@ -9,8 +9,10 @@ import * as actions from './store/actions/session';
 
 import Button from './components/Button/Button';
 import ControlButton from './components/Button/ControlButton';
+import DrawerToggle from './components/SideDrawer/DrawerToggle/DrawerToggle';
 import Grid from './components/Grid/Grid';
 import Modal from './components/UI/Modal/Modal';
+import SideDrawer from './components/SideDrawer/SideDrawer';
 
 function App(props) {
 
@@ -24,6 +26,8 @@ function App(props) {
   })
 
   const gameRef = useRef(game);
+
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
 
   const [gameSettings, setGameSettings] = useState({
     isAutoplay: false,
@@ -53,9 +57,12 @@ function App(props) {
   // TODO: Keyhandlers
 
   const handleKeyDown = (e) => {
+    if (gameRef.current.isSolved) {
+      return
+    }
     if (e.key === 'w' || e.key === 'W' || e.keyCode === 38) {
       slide('moveUp', true)
-    } 
+    }
     if (e.key === 's' || e.key === 'S' || e.keyCode === 40) slide('moveDown', true)
     if (e.key === 'a' || e.key === 'A' || e.keyCode === 37) slide('moveLeft', true)
     if (e.key === 'd' || e.key === 'D' || e.keyCode === 39) slide('moveRight', true)
@@ -257,6 +264,7 @@ function App(props) {
     })
     newGame(difficulty);
     toggleStart();
+    setShowSideDrawer(false);
   }
 
   function toggleStart() {
@@ -270,7 +278,7 @@ function App(props) {
   // Conditional JSX Elements
   let next = null;
   if (game.isSolved) {
-    next = <Button size="xxlarge" next onClick={() => newGame(props.difficulty)}>Next &rarr;</Button>
+    next = <Button size="next" onClick={() => newGame(props.difficulty)}>Next &rarr;</Button>
   }
 
   // JSX
@@ -283,14 +291,20 @@ function App(props) {
         <button onClick={toggleStart}>Cancel</button>
       </Modal>
 
+      <SideDrawer open={showSideDrawer} click={() => setShowSideDrawer(!showSideDrawer)}>
+        <h2>Menu</h2>
+        <Button size="menu" onClick={toggleStart}>New Game</Button>
+        <Button size="menu" onClick={() => {
+          props.incrementSkipped();
+          newGame(props.difficulty);
+        }}>Skip</Button>
+        <Button size="menu" onClick={toggleAutoplay} on={gameSettings.isAutoplay}>Autosolve</Button>
+      </SideDrawer>
+
       <div className={classes.Top}>
         <div className={classes.Title}>Rubik's Slide</div>
-
-
-        {/* <p className={classes.GameId}>
-          Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)} <br />
-          (Game ID: {game.gameId})
-        </p> */}
+        <p>Press the arrows to shift and rotate the squares so that the design matches the target.</p>
+        <DrawerToggle click={() => setShowSideDrawer(!showSideDrawer)} />
       </div>
 
       <div className={classes.GridContainer}>
@@ -306,7 +320,6 @@ function App(props) {
         </div>
         <div className={classes.Row}>
           <ControlButton type="moveDown" onClick={() => slide('moveDown')} disabled={game.isSolved} />
-
         </div>
       </div>
 
@@ -316,43 +329,13 @@ function App(props) {
 
 
       <div className={classes.ControlBar}>
-        <div className={classes.Panel}>
-          <Button size="menu" normal onClick={toggleStart}>Restart</Button>
-          <Button size="menu" normal onClick={() => {
-            props.incrementSkipped();
-            newGame(props.difficulty);
-          }}>Skip</Button>
-          <Button size="menu" normal onClick={toggleAutoplay} on={gameSettings.isAutoplay}>Solve</Button>
-        </div>
-
         <div className={classes.Score}>
-          <div>Solved: {props.numberSolved}</div>
-          <div>Skipped: {props.numberSkipped}</div>
-          <div>Moves Current Puzzle: {game.moveCount}</div>
+          <div><strong>Solved</strong>: {props.numberSolved}</div>
+          <div><strong>Skipped</strong>: {props.numberSkipped}</div>
+          <div><strong>Moves Current Puzzle</strong>: {game.moveCount}</div>
+          {/* <div>Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)}</div>
+          <div>Game ID: {game.gameId}</div> */}
         </div>
-
-        {/* <div className={classes.Controls}>
-          <div className={classes.ControlRow}>
-            <Button size="control" onClick={() => slide('moveUp')} disabled={game.isSolved}>&#129045;</Button>
-          </div>
-          <div className={classes.ControlRow}>
-            <Button size="control" onClick={() => slide('moveLeft')} disabled={game.isSolved}>&#129044;</Button>
-            <Button size="control" disabled> </Button>
-            <Button size="control" onClick={() => slide('moveRight')} disabled={game.isSolved}>&#129046;</Button>
-          </div>
-          <div>
-            <Button size="control" onClick={() => slide('moveDown')} disabled={game.isSolved}>&#129047;</Button>
-          </div>
-          <div className={classes.ControlRow}>
-
-          </div>
-          <div className={classes.ControlRow}>
-            <Button size="control" onClick={() => slide('rotateLeft')} disabled={game.isSolved}>&#10226;</Button>
-            <span className={classes.Spacer}></span>
-            <Button size="control" onClick={() => slide('rotateRight')} disabled={game.isSolved}>&#10227;</Button>
-          </div>
-        </div> */}
-
 
         <div className={classes.Panel}>
           <div className={classes.TargetTitle}>Target</div>
