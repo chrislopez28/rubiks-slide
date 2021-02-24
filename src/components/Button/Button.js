@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Button.module.css';
+import classes from './Button.module.scss';
 
 const Button = (props) => {
     let stylesArray = [classes.Button];

@@ -8,6 +8,7 @@ import useInterval from './util/useInterval';
 import * as actions from './store/actions/session';
 
 import Button from './components/Button/Button';
+import ControlButton from './components/Button/ControlButton';
 import Grid from './components/Grid/Grid';
 import Modal from './components/UI/Modal/Modal';
 
@@ -52,7 +53,9 @@ function App(props) {
   // TODO: Keyhandlers
 
   const handleKeyDown = (e) => {
-    if (e.key === 'w' || e.key === 'W' || e.keyCode === 38) slide('moveUp', true)
+    if (e.key === 'w' || e.key === 'W' || e.keyCode === 38) {
+      slide('moveUp', true)
+    } 
     if (e.key === 's' || e.key === 'S' || e.keyCode === 40) slide('moveDown', true)
     if (e.key === 'a' || e.key === 'A' || e.keyCode === 37) slide('moveLeft', true)
     if (e.key === 'd' || e.key === 'D' || e.keyCode === 39) slide('moveRight', true)
@@ -67,8 +70,6 @@ function App(props) {
       window.removeEventListener('keydown', handleKeyDown)
     };
   })
-
-
 
   // Function Declarations
   function newGame(difficulty) {
@@ -277,18 +278,15 @@ function App(props) {
     <div className={classes.App}>
       <Modal show={gameSettings.isStart} modalClosed={toggleStart}>
         <h2>Select Difficulty:</h2>
-        <Button size="menu"  onClick={() => startGameHandler('normal')}>Normal</Button><br />
-        <Button size="menu"  onClick={() => startGameHandler('hard')}>Hard</Button><br /><br />
+        <Button size="menu" onClick={() => startGameHandler('normal')}>Normal</Button><br />
+        <Button size="menu" onClick={() => startGameHandler('hard')}>Hard</Button><br /><br />
         <button onClick={toggleStart}>Cancel</button>
       </Modal>
 
       <div className={classes.Top}>
-        <div className={classes.Title}>Rubik's Slide Simulator</div>
-        <div className={classes.Score}>
-          <div>Solved: {props.numberSolved}</div>
-          <div>Skipped: {props.numberSkipped}</div>
-          <div>Moves Current Puzzle: {game.moveCount}</div>
-        </div>
+        <div className={classes.Title}>Rubik's Slide</div>
+
+
         {/* <p className={classes.GameId}>
           Difficulty: {props.difficulty.charAt(0).toUpperCase() + props.difficulty.slice(1)} <br />
           (Game ID: {game.gameId})
@@ -296,17 +294,29 @@ function App(props) {
       </div>
 
       <div className={classes.GridContainer}>
-        <Grid matrix={game.matrix} movement={movement} isSolved={game.isSolved} />
+        <div className={classes.Row}>
+          <ControlButton type="rotateLeft" onClick={() => slide('rotateLeft')} disabled={game.isSolved} />
+          <ControlButton type="moveUp" onClick={() => slide('moveUp')} disabled={game.isSolved} />
+          <ControlButton type="rotateRight" onClick={() => slide('rotateRight')} disabled={game.isSolved} />
+        </div>
+        <div className={classes.CenterRow}>
+          <ControlButton type="moveLeft" onClick={() => slide('moveLeft')} disabled={game.isSolved} />
+          <Grid matrix={game.matrix} movement={movement} isSolved={game.isSolved} />
+          <ControlButton type="moveRight" onClick={() => slide('moveRight')} disabled={game.isSolved} />
+        </div>
+        <div className={classes.Row}>
+          <ControlButton type="moveDown" onClick={() => slide('moveDown')} disabled={game.isSolved} />
+
+        </div>
       </div>
 
       <div className={classes.NextButton}>
         {next}
       </div>
 
+
       <div className={classes.ControlBar}>
         <div className={classes.Panel}>
-          <div>
-          </div>
           <Button size="menu" normal onClick={toggleStart}>Restart</Button>
           <Button size="menu" normal onClick={() => {
             props.incrementSkipped();
@@ -314,7 +324,14 @@ function App(props) {
           }}>Skip</Button>
           <Button size="menu" normal onClick={toggleAutoplay} on={gameSettings.isAutoplay}>Solve</Button>
         </div>
-        <div className={classes.Controls}>
+
+        <div className={classes.Score}>
+          <div>Solved: {props.numberSolved}</div>
+          <div>Skipped: {props.numberSkipped}</div>
+          <div>Moves Current Puzzle: {game.moveCount}</div>
+        </div>
+
+        {/* <div className={classes.Controls}>
           <div className={classes.ControlRow}>
             <Button size="control" onClick={() => slide('moveUp')} disabled={game.isSolved}>&#129045;</Button>
           </div>
@@ -327,18 +344,21 @@ function App(props) {
             <Button size="control" onClick={() => slide('moveDown')} disabled={game.isSolved}>&#129047;</Button>
           </div>
           <div className={classes.ControlRow}>
-            
+
           </div>
           <div className={classes.ControlRow}>
             <Button size="control" onClick={() => slide('rotateLeft')} disabled={game.isSolved}>&#10226;</Button>
             <span className={classes.Spacer}></span>
             <Button size="control" onClick={() => slide('rotateRight')} disabled={game.isSolved}>&#10227;</Button>
           </div>
-        </div>
+        </div> */}
+
+
         <div className={classes.Panel}>
           <div className={classes.TargetTitle}>Target</div>
           <Grid matrix={gameRef.current.target} mini />
         </div>
+
       </div>
     </div>
   );

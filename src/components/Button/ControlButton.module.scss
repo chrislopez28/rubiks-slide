@@ -1,0 +1,217 @@
+$tri-edge: 1.1rem;
+$tri-base: 2.2rem;
+$curve: 0.55rem;
+
+$color: #ccc;
+$hover: #999;
+$active: #333;
+
+
+.ControlButton {
+  all: unset;
+}
+
+.Triangle {
+    height: 0rem;
+    width: 0rem;
+    margin: 1rem;
+}
+
+.Rotate {
+  height: 0rem;
+  width: 0rem;
+  margin: 1rem 2rem;
+}
+
+.TriangleUp {
+  border-left: $tri-edge solid transparent;
+  border-right: $tri-edge solid transparent;
+  border-bottom: $tri-base solid $color;
+}
+
+.TriangleDown {
+  border-left: $tri-edge solid transparent;
+  border-right: $tri-edge solid transparent;
+  border-top: $tri-base solid $color;
+}
+
+.TriangleLeft {
+    border-top: $tri-edge solid transparent;
+    border-bottom: $tri-edge solid transparent;
+    border-right: $tri-base solid $color;
+  }
+  
+  .TriangleRight {
+    border-top: $tri-edge solid transparent;
+    border-bottom: $tri-edge solid transparent;
+    border-left: $tri-base solid $color;
+  }
+  
+
+  
+  .TriangleUp:hover {
+    border-bottom: $tri-base solid $hover;
+  }
+  .TriangleUp:active {
+    border-bottom: $tri-base solid $active;
+  }
+  
+  .TriangleDown:hover {
+    border-top: $tri-base solid $hover;
+  }
+  .TriangleDown:active {
+    border-top: $tri-base solid $active;
+  }
+  
+  .TriangleLeft:hover {
+    border-right: $tri-base solid $hover;
+  }
+  .TriangleLeft:active {
+    border-right: $tri-base solid $active;
+  }
+  
+  .TriangleRight:hover {
+    border-left: $tri-base solid $hover;
+  }
+  .TriangleRight:active {
+    border-left: $tri-base solid $active;
+  }
+  
+
+  .RotateRight {
+    position: relative;
+    width: $tri-edge;
+    height:$tri-edge;
+    // margin: $curve auto;
+  
+    border: $curve solid $color;
+    border-radius: 50%;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  
+  .RotateRight::after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $color;
+    top: 0.875rem; 
+    left: 0.875rem;
+  
+    border-bottom-color: $color;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-color: transparent;
+  }
+
+
+
+  .RotateLeft {
+    position: relative;
+    width: $tri-edge;
+    height:$tri-edge;
+    // margin: $curve auto;
+  
+    border: $curve solid $color;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+  
+
+
+  .RotateRight:hover {
+    border: $curve solid $hover;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  
+  .RotateRight:hover:after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $hover;
+    top: 0.875rem; 
+    left: 0.875rem;
+  
+    border-bottom-color: $hover;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-color: transparent;
+  }
+
+  .RotateLeft::after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $color;
+    top: 0.875rem;
+    right: 0.875rem;
+  
+    border-bottom-color: $color;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-color: transparent;
+  }
+  
+  .RotateLeft:hover {
+    border: $curve solid $hover;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+  }
+
+  .RotateLeft:hover:after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $hover;
+    top: 0.875rem;
+    right: 0.875rem;
+  
+    border-bottom-color: $hover;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-color: transparent;
+  }
+
+  
+
+  .RotateRight:active {
+    border: $curve solid $active;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+  
+  .RotateRight:active:after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $active;
+    top: 0.875rem; 
+    left: 0.875rem;
+  
+    border-bottom-color: $active;
+    border-top-width: 0;
+    border-left-width: 0;
+    border-right-color: transparent;
+  }
+
+  .RotateLeft:active {
+    border: $curve solid $active;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+  }
+
+  .RotateLeft:active:after {
+    content: "";
+    position: absolute;
+  
+    border: $curve solid $active;
+    top: 0.875rem;
+    right: 0.875rem;
+  
+    border-bottom-color: $active;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-color: transparent;
+  }
