@@ -2,13 +2,14 @@ $tri-edge: 1.1rem;
 $tri-base: 2.2rem;
 $curve: 0.55rem;
 
-$color: #ccc;
-$hover: #999;
+$color: #999;
+$hover: #666;
 $active: #333;
 
 
 .ControlButton {
   all: unset;
+  cursor: pointer;
 }
 
 .Triangle {

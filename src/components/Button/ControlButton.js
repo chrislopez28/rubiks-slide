@@ -48,7 +48,7 @@ const ControlButton = (props) => {
 
     return (
         <button
-            id={props.type}
+            aria-label={props.type.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); })}
             className={stylesArray.join(' ')}
             onClick={props.onClick}
             type={props.type}
