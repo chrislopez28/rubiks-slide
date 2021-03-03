@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/rubiks-slide/static/css/main.c31b3350.chunk.css",
+    "main.css": "/rubiks-slide/static/css/main.f7c06aba.chunk.css",
     "main.js": "/rubiks-slide/static/js/main.bf3c0a62.chunk.js",
     "main.js.map": "/rubiks-slide/static/js/main.bf3c0a62.chunk.js.map",
     "runtime-main.js": "/rubiks-slide/static/js/runtime-main.7e280917.js",
@@ -10,13 +10,13 @@
     "static/js/3.58981c0b.chunk.js": "/rubiks-slide/static/js/3.58981c0b.chunk.js",
     "static/js/3.58981c0b.chunk.js.map": "/rubiks-slide/static/js/3.58981c0b.chunk.js.map",
     "index.html": "/rubiks-slide/index.html",
-    "static/css/main.c31b3350.chunk.css.map": "/rubiks-slide/static/css/main.c31b3350.chunk.css.map",
+    "static/css/main.f7c06aba.chunk.css.map": "/rubiks-slide/static/css/main.f7c06aba.chunk.css.map",
     "static/js/2.9498501b.chunk.js.LICENSE.txt": "/rubiks-slide/static/js/2.9498501b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.7e280917.js",
     "static/js/2.9498501b.chunk.js",
-    "static/css/main.c31b3350.chunk.css",
+    "static/css/main.f7c06aba.chunk.css",
     "static/js/main.bf3c0a62.chunk.js"
   ]
 }
