@@ -39,12 +39,14 @@
 }
 
 .Next {
-    height: 3rem;
+    height: 2rem;
     width: 60%;
+    max-width: 200px;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
     background-color: rgb(255, 81, 81);
 }
+
 /* 
 .Small {
     font-size: x-small;

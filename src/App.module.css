@@ -42,7 +42,6 @@
 
 
 .NextButton {
-  overflow: hidden;
   height: 10vh;
   z-index: 100;
   margin: 1rem;
@@ -70,7 +69,7 @@
   justify-content: space-between;
   padding: 0.25rem 0rem;
   align-items: top;
-  height: 20vh;
+  height: 18vh;
   width: 100%;
 }
 
