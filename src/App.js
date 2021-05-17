@@ -11,7 +11,7 @@ import Button from "./components/Button/Button";
 import ControlButton from "./components/Button/ControlButton";
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
 import Grid from "./components/Grid/Grid";
-import Modal from "./components/UI/Modal/Modal";
+import SelectDifficultyModal from "./components/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 
 function App(props) {
@@ -23,11 +23,8 @@ function App(props) {
     isSolved: null,
     moveCount: 0,
   });
-
   const gameRef = useRef(game);
-
   const [showSideDrawer, setShowSideDrawer] = useState(false);
-
   const [gameSettings, setGameSettings] = useState({
     isAutoplay: false,
     isStart: true,
@@ -36,10 +33,9 @@ function App(props) {
     resetDelay: 500,
     isFirstLoad: true,
   });
-
   const [movement, setMovement] = useState("");
 
-  // Hooks
+  // Effects
   useInterval(() => {
     if (gameSettings.isAutoplay) {
       if (!game.isSolved) {
@@ -53,8 +49,7 @@ function App(props) {
     }
   });
 
-  // TODO: Keyhandlers
-
+  // Keyhandlers
   const handleKeyDown = (e) => {
     if (gameRef.current.isSolved) {
       return;
@@ -348,22 +343,14 @@ function App(props) {
     );
   }
 
-  // JSX
   return (
     <div className={classes.App}>
-      <Modal show={gameSettings.isStart} modalClosed={toggleStart}>
-        <h2>Select Difficulty:</h2>
-        <Button size="menu" onClick={() => startGameHandler("normal")}>
-          Normal
-        </Button>
-        <br />
-        <Button size="menu" onClick={() => startGameHandler("hard")}>
-          Hard
-        </Button>
-        <br />
-        <br />
-        <button onClick={toggleStart}>Cancel</button>
-      </Modal>
+      <SelectDifficultyModal
+        show={gameSettings.isStart}
+        modalClosed={toggleStart}
+        startGameHandler={startGameHandler}
+        toggleStart={toggleStart}
+      />
 
       <SideDrawer
         open={showSideDrawer}

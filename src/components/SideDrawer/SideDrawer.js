@@ -14,7 +14,6 @@ export default function SideDrawer(props) {
       <Backdrop show={props.open} click={props.click} />
       <div className={attachedClasses.join(" ")}>
         {props.children}
-
         <button className={styles.CloseButton} onClick={props.click}>
           Close
         </button>
