@@ -355,28 +355,14 @@ function App(props) {
       <SideDrawer
         open={showSideDrawer}
         click={() => setShowSideDrawer(!showSideDrawer)}
-      >
-        <h2>Menu</h2>
-        <Button size="menu" onClick={toggleStart}>
-          New Game
-        </Button>
-        <Button
-          size="menu"
-          onClick={() => {
-            props.incrementSkipped();
-            newGame(props.difficulty);
-          }}
-        >
-          Skip
-        </Button>
-        <Button
-          size="menu"
-          onClick={toggleAutoplay}
-          on={gameSettings.isAutoplay}
-        >
-          Autosolve
-        </Button>
-      </SideDrawer>
+        clickNewGame={toggleStart}
+        clickSkip={() => {
+          props.incrementSkipped();
+          newGame(props.difficulty);
+        }}
+        clickAutosolve={toggleAutoplay}
+        isAutoplay={gameSettings.isAutoplay}
+      />
 
       <div className={classes.Top}>
         <div className={classes.Title}>Rubik's Slide</div>
