@@ -1,29 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 
-import ControlButton from "./Button/ControlButton";
-import Grid from "./Grid/Grid";
+import ControlButton from "../Button/ControlButton";
+import Grid from "../Grid/Grid";
+
+const GameScreenContainer = styled.div`
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 45vh;
+`;
+
+const Row = styled.div`
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function GameScreen(props) {
-  const GameScreen = styled.div`
-    overflow: hidden;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 45vh;
-  `;
-
-  const Row = styled.div`
-    margin: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `;
-
   return (
-    <GameScreen>
+    <GameScreenContainer>
       <Row>
         <ControlButton
           type="rotateLeft"
@@ -65,6 +65,6 @@ export default function GameScreen(props) {
           disabled={props.isSolved}
         />
       </Row>
-    </GameScreen>
+    </GameScreenContainer>
   );
 }

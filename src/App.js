@@ -9,9 +9,9 @@ import * as actions from "./store/actions/session";
 
 import Button from "./components/Button/Button";
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
-import GameScreen from "./components/GameScreen";
+import GameScreen from "./components/Game/GameScreen";
 import Grid from "./components/Grid/Grid";
-import SelectDifficultyModal from "./components/SelectDifficultyModal";
+import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 
 function App(props) {

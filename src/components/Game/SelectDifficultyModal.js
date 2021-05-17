@@ -1,5 +1,5 @@
-import Button from "./Button/Button";
-import Modal from "./UI/Modal/Modal";
+import Button from "../Button/Button";
+import Modal from "../UI/Modal/Modal";
 
 export default function SelectDifficultyModal(props) {
   return (
