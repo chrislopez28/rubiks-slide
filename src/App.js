@@ -8,8 +8,8 @@ import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
 import Button from "./components/Button/Button";
-import ControlButton from "./components/Button/ControlButton";
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
+import GameScreen from "./components/GameScreen";
 import Grid from "./components/Grid/Grid";
 import SelectDifficultyModal from "./components/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
@@ -373,49 +373,12 @@ function App(props) {
         <DrawerToggle click={() => setShowSideDrawer(!showSideDrawer)} />
       </div>
 
-      <div className={classes.GridContainer}>
-        <div className={classes.Row}>
-          <ControlButton
-            type="rotateLeft"
-            onClick={() => slide("rotateLeft")}
-            disabled={game.isSolved}
-          />
-          <ControlButton
-            type="moveUp"
-            onClick={() => slide("moveUp")}
-            disabled={game.isSolved}
-          />
-          <ControlButton
-            type="rotateRight"
-            onClick={() => slide("rotateRight")}
-            disabled={game.isSolved}
-          />
-        </div>
-        <div className={classes.CenterRow}>
-          <ControlButton
-            type="moveLeft"
-            onClick={() => slide("moveLeft")}
-            disabled={game.isSolved}
-          />
-          <Grid
-            matrix={game.matrix}
-            movement={movement}
-            isSolved={game.isSolved}
-          />
-          <ControlButton
-            type="moveRight"
-            onClick={() => slide("moveRight")}
-            disabled={game.isSolved}
-          />
-        </div>
-        <div className={classes.Row}>
-          <ControlButton
-            type="moveDown"
-            onClick={() => slide("moveDown")}
-            disabled={game.isSolved}
-          />
-        </div>
-      </div>
+      <GameScreen
+        isSolved={game.isSolved}
+        matrix={game.matrix}
+        movement={movement}
+        slide={slide}
+      />
 
       <div className={classes.NextButton}>{next}</div>
 

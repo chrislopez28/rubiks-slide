@@ -20,17 +20,7 @@
 }
 
 .GameId {
-  font-size: 0.80rem;
-}
-
-.GridContainer {
-  overflow: hidden;
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 45vh;
+  font-size: 0.8rem;
 }
 
 .CenterRow {
@@ -40,19 +30,10 @@
   flex-direction: row;
 }
 
-
 .NextButton {
   height: 10vh;
   z-index: 100;
   margin: 1rem;
-}
-
-
-.Row {
-  margin: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .ControlBar {
