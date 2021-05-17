@@ -7,10 +7,10 @@ import { encodeGame } from "./util/gridEncoding";
 import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
-import Button from "./components/Button/Button";
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
 import GameScreen from "./components/Game/GameScreen";
 import Grid from "./components/Grid/Grid";
+import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
 
@@ -333,16 +333,6 @@ function App(props) {
     });
   }
 
-  // Conditional JSX Elements
-  let next = null;
-  if (game.isSolved) {
-    next = (
-      <Button size="next" onClick={() => newGame(props.difficulty)}>
-        Next &rarr;
-      </Button>
-    );
-  }
-
   return (
     <div className={classes.App}>
       <SelectDifficultyModal
@@ -380,7 +370,11 @@ function App(props) {
         slide={slide}
       />
 
-      <div className={classes.NextButton}>{next}</div>
+      <NextGridDialog
+        isSolved={game.isSolved}
+        difficulty={props.difficulty}
+        newGame={newGame}
+      />
 
       <div className={classes.ControlBar}>
         <div className={classes.Score}>

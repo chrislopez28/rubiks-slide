@@ -30,12 +30,6 @@
   flex-direction: row;
 }
 
-.NextButton {
-  height: 10vh;
-  z-index: 100;
-  margin: 1rem;
-}
-
 .ControlBar {
   overflow: hidden;
   position: absolute;
