@@ -1,18 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
 
-import classes from "./App.module.css";
 import { arrayEquals, rearrangeMatrix, shuffle } from "./util/array";
 import { encodeGame } from "./util/gridEncoding";
 import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
+import GameDescription from "./components/Game/GameDescription";
 import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
 import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
+
+const AppContainer = styled.div`
+  min-width: 300px;
+  text-align: center;
+  overflow: hidden;
+  background-color: rgba(247, 255, 249);
+  font-family: sans-serif;
+  font-size: 14px;
+`;
 
 function App(props) {
   // State
@@ -143,23 +153,11 @@ function App(props) {
 
     setGame(newGame);
     gameRef.current = newGame;
-    console.log(gameRef.current);
   }
 
   function slide(moveType, referenceMatrix = false) {
-    let matrix = game.matrix;
-    let target = game.target;
-
-    if (referenceMatrix) {
-      matrix = gameRef.current.matrix;
-      target = gameRef.current.target;
-    }
-
-    console.log(matrix);
-
+    let matrix = referenceMatrix ? gameRef.current.matrix : game.matrix;
     matrix = rearrangeMatrix(matrix, moveType);
-
-    console.log(matrix, target);
     updateMatrix(matrix, true);
 
     setMovement(moveType);
@@ -253,14 +251,13 @@ function App(props) {
   }
 
   return (
-    <div className={classes.App}>
+    <AppContainer>
       <SelectDifficultyModal
         show={gameSettings.isStart}
         modalClosed={toggleStart}
         startGameHandler={startGameHandler}
         toggleStart={toggleStart}
       />
-
       <SideDrawer
         open={showSideDrawer}
         click={() => setShowSideDrawer(!showSideDrawer)}
@@ -272,40 +269,29 @@ function App(props) {
         clickAutosolve={toggleAutoplay}
         isAutoplay={gameSettings.isAutoplay}
       />
-
       <DrawerToggle
         showSideDrawer={showSideDrawer}
         click={() => setShowSideDrawer(!showSideDrawer)}
       />
-
-      <div className={classes.Top}>
-        <div className={classes.Title}>Rubik's Slide</div>
-        <p>
-          Press the arrows to shift and rotate the squares so that the design
-          matches the target.
-        </p>
-      </div>
-
+      <GameDescription />
       <GameScreen
         isSolved={game.isSolved}
         matrix={game.matrix}
         movement={movement}
         slide={slide}
       />
-
       <NextGridDialog
         isSolved={game.isSolved}
         difficulty={props.difficulty}
         newGame={newGame}
       />
-
       <GameInfo
         numberSolved={props.numberSolved}
         numberSkipped={props.numberSkipped}
         moveCount={game.moveCount}
         targetGrid={gameRef.current.target}
       />
-    </div>
+    </AppContainer>
   );
 }
 
