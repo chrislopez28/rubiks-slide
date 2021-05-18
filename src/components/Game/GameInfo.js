@@ -16,30 +16,42 @@ const GameInfoContainer = styled.div`
   align-items: top;
   height: 18vh;
   width: 100%;
+  font-family: monospace;
+  margin-bottom: 36px;
+  background-color: rgba(160, 193, 227, 0.75);
 `;
 
 const Score = styled.div`
-  text-align: left;
   margin: 0 auto;
-  font-size: 0.8rem;
-  /* border: 2px solid rgba(0, 0, 0, 0.25); */
   padding: 6px;
-  border-radius: 4px;
   width: 60vw;
-  height: 60%;
-  /* background-color: rgba(0, 0, 0, 0.05); */
+  height: 100%;
+  text-align: left;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const Panel = styled.div`
   width: 25vw;
-  justify-content: left;
-  align-items: top;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
+
+const ScoreList = styled.ul`
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const ScoreItem = styled.li``;
 
 const TargetTitle = styled.div`
   font: 1rem;
+  padding: 4px;
   font-weight: bold;
 `;
 
@@ -47,20 +59,24 @@ export default function GameInfo(props) {
   return (
     <GameInfoContainer>
       <Score>
-        <div>
-          <strong>Solved</strong>: {props.numberSolved}
-        </div>
-        <div>
-          <strong>Skipped</strong>: {props.numberSkipped}
-        </div>
-        <div>
-          <strong>Moves Current Puzzle</strong>: {props.moveCount}
-        </div>
+        <ScoreList>
+          <ScoreItem>
+            <strong>Solved</strong>: {props.numberSolved}
+          </ScoreItem>
+          <ScoreItem>
+            <strong>Skipped</strong>: {props.numberSkipped}
+          </ScoreItem>
+          <ScoreItem>
+            <strong>Number Moves</strong>: {props.moveCount}
+          </ScoreItem>
+        </ScoreList>
       </Score>
 
       <Panel>
-        <TargetTitle>Target</TargetTitle>
-        <Grid matrix={props.targetGrid} mini />
+        <div>
+          <TargetTitle>Target</TargetTitle>
+          <Grid matrix={props.targetGrid} mini />
+        </div>
       </Panel>
     </GameInfoContainer>
   );

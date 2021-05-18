@@ -12,6 +12,7 @@ import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
 import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
 import Header from "./components/Game/Header";
+import Footer from "./components/Game/Footer";
 import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
@@ -293,6 +294,7 @@ function App(props) {
         moveCount={game.moveCount}
         targetGrid={gameRef.current.target}
       />
+      <Footer />
     </AppContainer>
   );
 }

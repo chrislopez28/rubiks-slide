@@ -12,12 +12,18 @@ const HeaderContainer = styled.div`
   justify-content: center;
 `;
 
-const Title = styled.span`
+const Title = styled.a`
   text-decoration: none;
+  color: #222;
   width: 100%;
   padding: 0px;
   margin: 0px;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-family: monospace;
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default function Header(props) {
