@@ -5,6 +5,7 @@ import ControlButton from "../Button/ControlButton";
 import Grid from "../Grid/Grid";
 
 const GameScreenContainer = styled.div`
+  margin-top: 20vh;
   overflow: hidden;
   min-height: 200px;
   display: flex;

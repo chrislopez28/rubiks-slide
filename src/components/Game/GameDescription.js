@@ -7,15 +7,15 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-const Title = styled.h1`
-  font-size: 2rem;
-  padding: 0px;
-`;
+// const Title = styled.h1`
+//   font-size: 2rem;
+//   padding: 0px;
+// `;
 
 export default function GameDescription(props) {
   return (
     <Container>
-      <Title>Rubik's Slide</Title>
+      {/* <Title>Rubik's Slide</Title> */}
       <p>
         Press the arrows to shift and rotate the squares so that the design
         matches the target.

@@ -8,9 +8,10 @@ import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
-import GameDescription from "./components/Game/GameDescription";
+// import GameDescription from "./components/Game/GameDescription";
 import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
+import Header from "./components/Game/Header";
 import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
@@ -273,7 +274,8 @@ function App(props) {
         showSideDrawer={showSideDrawer}
         click={() => setShowSideDrawer(!showSideDrawer)}
       />
-      <GameDescription />
+      <Header />
+      {/* <GameDescription /> */}
       <GameScreen
         isSolved={game.isSolved}
         matrix={game.matrix}
