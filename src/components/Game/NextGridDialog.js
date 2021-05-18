@@ -7,16 +7,14 @@ const NextGridDialogContainer = styled.div`
   z-index: 100;
   margin: 1rem;
 `;
-
-export default function NextGridDialog(props) {
-  let next = null;
-  if (props.isSolved) {
-    next = (
+const NextGridDialog = (props) => (
+  <NextGridDialogContainer>
+    {props.isSolved ? (
       <Button size="next" onClick={() => props.newGame(props.difficulty)}>
         Next &rarr;
       </Button>
-    );
-  }
+    ) : null}
+  </NextGridDialogContainer>
+);
 
-  return <NextGridDialogContainer>{next}</NextGridDialogContainer>;
-}
+export default NextGridDialog;

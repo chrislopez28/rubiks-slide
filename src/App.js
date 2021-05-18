@@ -2,14 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 
 import classes from "./App.module.css";
-import { arrayEquals, shuffle } from "./util/array";
+import { arrayEquals, rearrangeMatrix, shuffle } from "./util/array";
 import { encodeGame } from "./util/gridEncoding";
 import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
 import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
+import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
-import Grid from "./components/Grid/Grid";
 import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import SideDrawer from "./components/SideDrawer/SideDrawer";
@@ -157,88 +157,89 @@ function App(props) {
 
     console.log(matrix);
 
-    switch (moveType) {
-      case "rotateLeft":
-        matrix = [
-          matrix[1],
-          matrix[2],
-          matrix[5],
-          matrix[0],
-          matrix[4],
-          matrix[8],
-          matrix[3],
-          matrix[6],
-          matrix[7],
-        ];
-        break;
-      case "rotateRight":
-        matrix = [
-          matrix[3],
-          matrix[0],
-          matrix[1],
-          matrix[6],
-          matrix[4],
-          matrix[2],
-          matrix[7],
-          matrix[8],
-          matrix[5],
-        ];
-        break;
-      case "moveUp":
-        matrix = [
-          matrix[3],
-          matrix[4],
-          matrix[5],
-          matrix[6],
-          matrix[7],
-          matrix[8],
-          matrix[0],
-          matrix[1],
-          matrix[2],
-        ];
-        break;
-      case "moveDown":
-        matrix = [
-          matrix[6],
-          matrix[7],
-          matrix[8],
-          matrix[0],
-          matrix[1],
-          matrix[2],
-          matrix[3],
-          matrix[4],
-          matrix[5],
-        ];
-        break;
-      case "moveLeft":
-        matrix = [
-          matrix[1],
-          matrix[2],
-          matrix[0],
-          matrix[4],
-          matrix[5],
-          matrix[3],
-          matrix[7],
-          matrix[8],
-          matrix[6],
-        ];
-        break;
-      case "moveRight":
-        matrix = [
-          matrix[2],
-          matrix[0],
-          matrix[1],
-          matrix[5],
-          matrix[3],
-          matrix[4],
-          matrix[8],
-          matrix[6],
-          matrix[7],
-        ];
-        break;
-      default:
-        break;
-    }
+    matrix = rearrangeMatrix(matrix, moveType);
+    // switch (moveType) {
+    //   case "rotateLeft":
+    //     matrix = [
+    //       matrix[1],
+    //       matrix[2],
+    //       matrix[5],
+    //       matrix[0],
+    //       matrix[4],
+    //       matrix[8],
+    //       matrix[3],
+    //       matrix[6],
+    //       matrix[7],
+    //     ];
+    //     break;
+    //   case "rotateRight":
+    //     matrix = [
+    //       matrix[3],
+    //       matrix[0],
+    //       matrix[1],
+    //       matrix[6],
+    //       matrix[4],
+    //       matrix[2],
+    //       matrix[7],
+    //       matrix[8],
+    //       matrix[5],
+    //     ];
+    //     break;
+    //   case "moveUp":
+    //     matrix = [
+    //       matrix[3],
+    //       matrix[4],
+    //       matrix[5],
+    //       matrix[6],
+    //       matrix[7],
+    //       matrix[8],
+    //       matrix[0],
+    //       matrix[1],
+    //       matrix[2],
+    //     ];
+    //     break;
+    //   case "moveDown":
+    //     matrix = [
+    //       matrix[6],
+    //       matrix[7],
+    //       matrix[8],
+    //       matrix[0],
+    //       matrix[1],
+    //       matrix[2],
+    //       matrix[3],
+    //       matrix[4],
+    //       matrix[5],
+    //     ];
+    //     break;
+    //   case "moveLeft":
+    //     matrix = [
+    //       matrix[1],
+    //       matrix[2],
+    //       matrix[0],
+    //       matrix[4],
+    //       matrix[5],
+    //       matrix[3],
+    //       matrix[7],
+    //       matrix[8],
+    //       matrix[6],
+    //     ];
+    //     break;
+    //   case "moveRight":
+    //     matrix = [
+    //       matrix[2],
+    //       matrix[0],
+    //       matrix[1],
+    //       matrix[5],
+    //       matrix[3],
+    //       matrix[4],
+    //       matrix[8],
+    //       matrix[6],
+    //       matrix[7],
+    //     ];
+    //     break;
+    //   default:
+    //     break;
+    // }
 
     console.log(matrix, target);
     updateMatrix(matrix, true);
@@ -376,24 +377,12 @@ function App(props) {
         newGame={newGame}
       />
 
-      <div className={classes.ControlBar}>
-        <div className={classes.Score}>
-          <div>
-            <strong>Solved</strong>: {props.numberSolved}
-          </div>
-          <div>
-            <strong>Skipped</strong>: {props.numberSkipped}
-          </div>
-          <div>
-            <strong>Moves Current Puzzle</strong>: {game.moveCount}
-          </div>
-        </div>
-
-        <div className={classes.Panel}>
-          <div className={classes.TargetTitle}>Target</div>
-          <Grid matrix={gameRef.current.target} mini />
-        </div>
-      </div>
+      <GameInfo
+        numberSolved={props.numberSolved}
+        numberSkipped={props.numberSkipped}
+        moveCount={game.moveCount}
+        targetGrid={gameRef.current.target}
+      />
     </div>
   );
 }
