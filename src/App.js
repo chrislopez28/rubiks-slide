@@ -158,88 +158,6 @@ function App(props) {
     console.log(matrix);
 
     matrix = rearrangeMatrix(matrix, moveType);
-    // switch (moveType) {
-    //   case "rotateLeft":
-    //     matrix = [
-    //       matrix[1],
-    //       matrix[2],
-    //       matrix[5],
-    //       matrix[0],
-    //       matrix[4],
-    //       matrix[8],
-    //       matrix[3],
-    //       matrix[6],
-    //       matrix[7],
-    //     ];
-    //     break;
-    //   case "rotateRight":
-    //     matrix = [
-    //       matrix[3],
-    //       matrix[0],
-    //       matrix[1],
-    //       matrix[6],
-    //       matrix[4],
-    //       matrix[2],
-    //       matrix[7],
-    //       matrix[8],
-    //       matrix[5],
-    //     ];
-    //     break;
-    //   case "moveUp":
-    //     matrix = [
-    //       matrix[3],
-    //       matrix[4],
-    //       matrix[5],
-    //       matrix[6],
-    //       matrix[7],
-    //       matrix[8],
-    //       matrix[0],
-    //       matrix[1],
-    //       matrix[2],
-    //     ];
-    //     break;
-    //   case "moveDown":
-    //     matrix = [
-    //       matrix[6],
-    //       matrix[7],
-    //       matrix[8],
-    //       matrix[0],
-    //       matrix[1],
-    //       matrix[2],
-    //       matrix[3],
-    //       matrix[4],
-    //       matrix[5],
-    //     ];
-    //     break;
-    //   case "moveLeft":
-    //     matrix = [
-    //       matrix[1],
-    //       matrix[2],
-    //       matrix[0],
-    //       matrix[4],
-    //       matrix[5],
-    //       matrix[3],
-    //       matrix[7],
-    //       matrix[8],
-    //       matrix[6],
-    //     ];
-    //     break;
-    //   case "moveRight":
-    //     matrix = [
-    //       matrix[2],
-    //       matrix[0],
-    //       matrix[1],
-    //       matrix[5],
-    //       matrix[3],
-    //       matrix[4],
-    //       matrix[8],
-    //       matrix[6],
-    //       matrix[7],
-    //     ];
-    //     break;
-    //   default:
-    //     break;
-    // }
 
     console.log(matrix, target);
     updateMatrix(matrix, true);
@@ -355,13 +273,17 @@ function App(props) {
         isAutoplay={gameSettings.isAutoplay}
       />
 
+      <DrawerToggle
+        showSideDrawer={showSideDrawer}
+        click={() => setShowSideDrawer(!showSideDrawer)}
+      />
+
       <div className={classes.Top}>
         <div className={classes.Title}>Rubik's Slide</div>
         <p>
           Press the arrows to shift and rotate the squares so that the design
           matches the target.
         </p>
-        <DrawerToggle click={() => setShowSideDrawer(!showSideDrawer)} />
       </div>
 
       <GameScreen

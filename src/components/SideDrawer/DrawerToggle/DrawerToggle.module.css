@@ -1,28 +1,50 @@
 .DrawerToggle {
-    width: 40px;
-    height: 50px;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 0;
-    margin: 8px;
-    box-sizing: border-box;
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 4px 8px;
+  z-index: 1000;
+  border-radius: 4px;
 }
 
 .DrawerToggle div {
-    width: 90%;
-    height: 3px;
-    background-color: rgb(28, 103, 224);
+  width: 35px;
+  height: 5px;
+  margin: 6px 0;
 }
 
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
 
-/* @media (min-width: 500px) {
-    .DrawerToggle {
-        display: none;
-    }
-} */
+/* Rotate first bar */
+.open1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+/* Fade out the second bar */
+.open2 {
+  opacity: 0;
+}
+
+/* Rotate last bar */
+.open3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+.DrawerToggle:hover {
+  background-color: rgb(242, 238, 238);
+}
+
+.DrawerToggle:active {
+  background-color: rgb(220, 216, 216);
+}
