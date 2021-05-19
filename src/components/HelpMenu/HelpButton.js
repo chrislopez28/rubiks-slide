@@ -47,13 +47,17 @@ const List = styled.ul`
 export default function HelpButton(props) {
   const [showPopup, setShowPopup] = useState(false);
 
-  console.log(showPopup);
   return (
     <>
       <HelpButtonContainer onClick={() => setShowPopup(!showPopup)}>
         ?
       </HelpButtonContainer>
       <HelpButtonPopup show={showPopup}>
+        <h4>How to Play</h4>
+        <p style={{ textAlign: "left" }}>
+          Press the arrows to "slide" and "rotate" the grid of squares so that
+          it matches the target shown on the bottom right.
+        </p>
         <h4>Keyboard Controls</h4>
         <List>
           <li>

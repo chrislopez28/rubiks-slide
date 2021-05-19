@@ -2,81 +2,70 @@ import React from "react";
 import styled from "styled-components";
 
 import Backdrop from "../UI/Backdrop/Backdrop";
-import Button from "../Button/Button";
 
-const SideDrawerContainer = styled.div`
+const MenuDrawerContainer = styled.div`
   position: fixed;
-  width: 280px;
-  max-width: 70%;
-  height: 100%;
+  width: 100%;
+  margin-top: 47px;
   left: 0;
   top: 0;
-  z-index: 200;
+  z-index: 100;
   background-color: rgba(160, 193, 227, 0.75);
-  padding: 32px 16px;
   box-sizing: border-box;
   color: white;
-  transform: ${(props) => (props.open ? "translateX(0)" : "translateX(-100%)")};
+  transform: ${(props) => (props.open ? "translateY(0)" : "translateY(-100%)")};
   transition: transform 0.3s ease-out;
 `;
 
-const CloseButton = styled.button`
-  background-color: #e3ce30;
+const MenuButton = styled.button`
+  background-color: #a0c0e3;
   border: none;
+  width: 100%;
   color: black;
   cursor: pointer;
   font: inherit;
   padding: 8px 8px;
-  margin: 8px;
   font-weight: bold;
-  border: 2px solid black;
-  border-radius: 5px;
 
   &:hover {
-    background-color: #cab722;
+    background-color: #90b0d3;
   }
   &:active {
-    background-color: #af9e1b;
+    background-color: #80a0c3;
   }
 `;
 
-export default function SideDrawer(props) {
+export default function MenuDrawer(props) {
   return (
     <>
       <Backdrop show={props.open} click={props.click} />
-      <SideDrawerContainer open={props.open}>
-        <h2 style={{ color: "black" }}>Menu</h2>
-        <Button
-          size="menu"
+      <MenuDrawerContainer open={props.open}>
+        <MenuButton
           onClick={() => {
             props.clickNewGame();
             props.click();
           }}
         >
           New Game
-        </Button>
-        <Button
-          size="menu"
+        </MenuButton>
+        <MenuButton
           onClick={() => {
             props.clickSkip();
             props.click();
           }}
         >
           Skip
-        </Button>
-        <Button
-          size="menu"
+        </MenuButton>
+        <MenuButton
           onClick={() => {
             props.clickAutosolve();
             props.click();
           }}
-          on={props.isAutoplay}
         >
-          Autosolve
-        </Button>
+          Autosolve (Random)
+        </MenuButton>
         {props.children}
-        <CloseButton onClick={props.click}>Close</CloseButton>
-      </SideDrawerContainer>
+      </MenuDrawerContainer>
     </>
   );
 }

@@ -8,12 +8,31 @@ const FooterContainer = styled.div`
   height: 36px;
   z-index: 11;
   background-color: rgba(160, 193, 227, 0.75);
+  font-family: monospace;
 `;
 
 export default function Footer(props) {
   return (
     <FooterContainer>
-      <p></p>
+      <p>
+        2021{" "}
+        <a
+          href="https://chrislopez.page"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Chris Lopez
+        </a>
+        . View code on{" "}
+        <a
+          href="https://github.com/chrislopez28/rubiks-slide"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        .
+      </p>
     </FooterContainer>
   );
 }

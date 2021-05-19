@@ -16,7 +16,8 @@ const HelpButtonPopupContainer = styled.div`
   right: 16px;
   margin-bottom: 8px;
   //   height: 200px;
-  //   width: 100px;
+  overflow-y: auto;
+  width: 300px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;

@@ -4,9 +4,10 @@ const HeaderContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(160, 193, 227, 0.75);
+  background-color: #a0c0e3;
   height: 47px;
   width: 100%;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
