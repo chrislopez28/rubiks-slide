@@ -3,22 +3,18 @@ import styled from "styled-components";
 import Grid from "../Grid/Grid";
 
 const GameInfoContainer = styled.div`
-  overflow: hidden;
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
-  z-index: 50;
-  background-color: inherit;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.25rem 0rem;
-  align-items: top;
   height: 18vh;
   width: 100%;
-  font-family: monospace;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 36px;
+  padding: 0.25rem 0rem;
   background-color: rgba(160, 193, 227, 0.75);
+  font-family: monospace;
 `;
 
 const Score = styled.div`

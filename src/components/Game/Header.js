@@ -18,7 +18,7 @@ const Title = styled.a`
   width: 100%;
   padding: 0px;
   margin: 0px;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-family: monospace;
 
   &:hover {

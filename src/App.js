@@ -11,6 +11,7 @@ import DrawerToggle from "./components/SideDrawer/DrawerToggle/DrawerToggle";
 // import GameDescription from "./components/Game/GameDescription";
 import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
+import HelpButton from "./components/HelpMenu/HelpButton";
 import Header from "./components/Game/Header";
 import Footer from "./components/Game/Footer";
 import NextGridDialog from "./components/Game/NextGridDialog";
@@ -294,6 +295,7 @@ function App(props) {
         moveCount={game.moveCount}
         targetGrid={gameRef.current.target}
       />
+      <HelpButton />
       <Footer />
     </AppContainer>
   );
