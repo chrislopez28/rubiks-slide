@@ -3,8 +3,24 @@ import React from 'react';
 import Square from '../Square/Square';
 import classes from './Grid.module.css';
 
-const Grid = props => {
-    let gridClasses = []
+enum Movement {
+  RotateLeft = "rotateLeft",
+  RotateRight = "rotateRight",
+  MoveUp = "moveUp",
+  MoveDown = "moveDown",
+  MoveLeft = "moveLeft",
+  MoveRight = "moveRight"
+}
+
+interface GridProps {
+  isSolved: Boolean;
+  matrix: Number[];
+  mini?: Boolean;
+  movement: Movement;
+}
+
+const Grid: React.FunctionComponent<GridProps> = props => {
+    let gridClasses: any[] | undefined = []
 
     switch (props.movement) {
         case 'rotateLeft':
@@ -33,12 +49,13 @@ const Grid = props => {
         gridClasses.push(classes.Solved)
     }
 
+    let gridStyles = "";
     if (gridClasses) {
-        gridClasses = gridClasses.join(' ')
+        gridStyles = gridClasses.join(' ')
     }
 
     return (
-        <div className={gridClasses}>
+        <div className={gridStyles}>
             <div className={classes.Row}>
                 <Square color={props.matrix[0]} mini={props.mini} />
                 <Square color={props.matrix[1]} mini={props.mini} />
