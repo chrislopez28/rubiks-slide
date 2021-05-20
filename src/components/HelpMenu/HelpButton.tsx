@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import HelpButtonBackdrop from "./HelpButtonBackdrop";
-import HelpButtonPopup from "./HelpButtonPopup";
+import HelpButtonBackdrop from "./HelpBackdrop";
+import HelpButtonPopup from "./HelpPopup";
 
 import styled from "styled-components";
 
@@ -44,7 +44,7 @@ const List = styled.ul`
   text-align: left;
 `;
 
-export default function HelpButton(props) {
+export default function HelpButton() {
   const [showPopup, setShowPopup] = useState(false);
 
   return (

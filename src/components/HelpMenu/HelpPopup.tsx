@@ -1,4 +1,11 @@
+import React from "react";
+
 import styled, { keyframes } from "styled-components";
+
+interface HelpPopupProps {
+  children: any;
+  show?: Boolean;
+};
 
 const appear = keyframes`
   0% {
@@ -15,7 +22,6 @@ const HelpButtonPopupContainer = styled.div`
   bottom: 56px;
   right: 16px;
   margin-bottom: 8px;
-  //   height: 200px;
   overflow-y: auto;
   width: 300px;
   padding: 8px;
@@ -27,12 +33,12 @@ const HelpButtonPopupContainer = styled.div`
   animation: ${appear} 2000ms infinite;
 `;
 
-export default function HelpButtonPopup(props) {
+export default function HelpPopup(props: HelpPopupProps) {
   return (
-    props.show && (
-      <HelpButtonPopupContainer onClick={props.click}>
+    props.show ? (
+      <HelpButtonPopupContainer>
         {props.children}
       </HelpButtonPopupContainer>
-    )
+    ) : null
   );
 }
