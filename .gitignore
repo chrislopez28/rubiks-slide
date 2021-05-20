@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# typescript output
+/built
+
 # production
 /build
 
