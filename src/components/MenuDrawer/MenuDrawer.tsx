@@ -3,7 +3,15 @@ import styled from "styled-components";
 
 import Backdrop from "../UI/Backdrop/Backdrop";
 
-const MenuDrawerContainer = styled.div`
+interface MenuDrawerProps {
+  click(): Function;
+  clickNewGame(): Function;
+  clickAutosolve(): Function;
+  clickSkip(): Function;
+  open?: Boolean;
+}
+
+const MenuDrawerContainer = styled.div<{open?: Boolean}>`
   position: fixed;
   width: 100%;
   margin-top: 47px;
@@ -15,6 +23,7 @@ const MenuDrawerContainer = styled.div`
   color: white;
   transform: ${(props) => (props.open ? "translateY(0)" : "translateY(-100%)")};
   transition: transform 0.3s ease-out;
+  font-family: monospace;
 `;
 
 const MenuButton = styled.button`
@@ -35,11 +44,17 @@ const MenuButton = styled.button`
   }
 `;
 
-export default function MenuDrawer(props) {
+const MenuDrawer: React.FunctionComponent<MenuDrawerProps> = (props) => {
   return (
     <>
       <Backdrop show={props.open} click={props.click} />
       <MenuDrawerContainer open={props.open}>
+        <hr
+          style={{
+            margin: "0 0px",
+            border: "1px solid rgba(128, 128, 128, 0.25)",
+          }}
+        />
         <MenuButton
           onClick={() => {
             props.clickNewGame();
@@ -69,3 +84,5 @@ export default function MenuDrawer(props) {
     </>
   );
 }
+
+export default MenuDrawer;
