@@ -4,8 +4,8 @@ import styled, { keyframes } from "styled-components";
 
 interface HelpPopupProps {
   children: any;
-  show?: Boolean;
-};
+  show?: boolean;
+}
 
 const appear = keyframes`
   0% {
@@ -34,11 +34,7 @@ const HelpButtonPopupContainer = styled.div`
 `;
 
 export default function HelpPopup(props: HelpPopupProps) {
-  return (
-    props.show ? (
-      <HelpButtonPopupContainer>
-        {props.children}
-      </HelpButtonPopupContainer>
-    ) : null
-  );
+  return props.show ? (
+    <HelpButtonPopupContainer>{props.children}</HelpButtonPopupContainer>
+  ) : null;
 }

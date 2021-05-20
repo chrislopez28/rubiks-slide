@@ -8,10 +8,10 @@ interface MenuDrawerProps {
   clickNewGame(): Function;
   clickAutosolve(): Function;
   clickSkip(): Function;
-  open?: Boolean;
+  open?: boolean;
 }
 
-const MenuDrawerContainer = styled.div<{open?: Boolean}>`
+const MenuDrawerContainer = styled.div<{ open?: Boolean }>`
   position: fixed;
   width: 100%;
   margin-top: 47px;
@@ -83,6 +83,6 @@ const MenuDrawer: React.FunctionComponent<MenuDrawerProps> = (props) => {
       </MenuDrawerContainer>
     </>
   );
-}
+};
 
 export default MenuDrawer;

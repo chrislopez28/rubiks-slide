@@ -25,10 +25,10 @@ const Row = styled.div`
 `;
 
 interface GameScreenProps {
-  isSolved: Boolean;
-  matrix: Number[];
+  isSolved: boolean;
+  matrix: number[];
   movement?: Movement;
-  slide(arg: String): void;
+  slide(arg: string): void;
 }
 
 export default function GameScreen(props: GameScreenProps) {

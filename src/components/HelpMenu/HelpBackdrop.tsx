@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 interface HelpBackdropProps {
   click(): void;
-  show?: Boolean;
+  show?: boolean;
 }
 
 const HelpBackdropContainer = styled.div`

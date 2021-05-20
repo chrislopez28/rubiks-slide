@@ -52,10 +52,10 @@ const TargetTitle = styled.div`
 `;
 
 interface GameInfoProps {
-  numberSolved: Number;
-  numberSkipped: Number;
-  moveCount: Number;
-  targetGrid: Number[];
+  numberSolved: number;
+  numberSkipped: number;
+  moveCount: number;
+  targetGrid: number[];
 }
 
 export default function GameInfo(props: GameInfoProps) {

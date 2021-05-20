@@ -2,7 +2,12 @@ import React from "react";
 
 import styles from "./DrawerToggle.module.css";
 
-export default function drawerToggle(props) {
+interface DrawerToggleProps {
+  click(): void;
+  showSideDrawer: boolean;
+}
+
+export default function drawerToggle(props: DrawerToggleProps) {
   let bar1 = [styles.bar1];
   let bar2 = [styles.bar2];
   let bar3 = [styles.bar3];

@@ -11,7 +11,7 @@ const NextGridDialogContainer = styled.div`
 
 interface NextGridDialogProps {
   difficulty: Difficulty;
-  isSolved: Boolean;
+  isSolved: boolean;
   newGame(difficulty: Difficulty): void;
 }
 
