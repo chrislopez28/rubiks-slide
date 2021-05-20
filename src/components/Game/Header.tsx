@@ -27,7 +27,7 @@ const Title = styled.a`
   }
 `;
 
-export default function Header(props) {
+export default function Header() {
   return (
     <HeaderContainer>
       <Title href="/">Rubik's Slide</Title>

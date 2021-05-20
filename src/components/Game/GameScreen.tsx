@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Movement } from "../../ts/types";
+
 import ControlButton from "../Button/ControlButton";
 import Grid from "../Grid/Grid";
 
@@ -22,7 +24,14 @@ const Row = styled.div`
   align-items: center;
 `;
 
-export default function GameScreen(props) {
+interface GameScreenProps {
+  isSolved: Boolean;
+  matrix: Number[];
+  movement?: Movement;
+  slide(arg: String): void;
+}
+
+export default function GameScreen(props: GameScreenProps) {
   return (
     <GameScreenContainer>
       <Row>

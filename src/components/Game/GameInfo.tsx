@@ -51,7 +51,14 @@ const TargetTitle = styled.div`
   font-weight: bold;
 `;
 
-export default function GameInfo(props) {
+interface GameInfoProps {
+  numberSolved: Number;
+  numberSkipped: Number;
+  moveCount: Number;
+  targetGrid: Number[];
+}
+
+export default function GameInfo(props: GameInfoProps) {
   return (
     <GameInfoContainer>
       <Score>

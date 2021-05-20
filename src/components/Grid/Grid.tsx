@@ -1,22 +1,14 @@
 import React from 'react';
+import { Movement } from "../../ts/types";
 
 import Square from '../Square/Square';
 import classes from './Grid.module.css';
 
-enum Movement {
-  RotateLeft = "rotateLeft",
-  RotateRight = "rotateRight",
-  MoveUp = "moveUp",
-  MoveDown = "moveDown",
-  MoveLeft = "moveLeft",
-  MoveRight = "moveRight"
-}
-
 interface GridProps {
-  isSolved: Boolean;
+  isSolved?: Boolean;
   matrix: Number[];
   mini?: Boolean;
-  movement: Movement;
+  movement?: Movement;
 }
 
 const Grid: React.FunctionComponent<GridProps> = props => {

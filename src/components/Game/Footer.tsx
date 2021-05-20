@@ -11,7 +11,7 @@ const FooterContainer = styled.div`
   font-family: monospace;
 `;
 
-export default function Footer(props) {
+export default function Footer() {
   return (
     <FooterContainer>
       <p>
