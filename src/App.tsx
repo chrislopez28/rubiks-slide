@@ -79,18 +79,18 @@ function App(props: AppProps) {
     if (gameRef.current.isSolved) {
       return;
     }
-    if (e.key === "w" || e.key === "W" || e.keyCode === 38) {
+    if (e.key === "w" || e.key === "W" || e.key === "ArrowUp") {
       slide(Movement.MoveUp, true);
     }
-    if (e.key === "s" || e.key === "S" || e.keyCode === 40)
+    if (e.key === "s" || e.key === "S" || e.key === "ArrowDown")
       slide(Movement.MoveDown, true);
-    if (e.key === "a" || e.key === "A" || e.keyCode === 37)
+    if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft")
       slide(Movement.MoveLeft, true);
-    if (e.key === "d" || e.key === "D" || e.keyCode === 39)
+    if (e.key === "d" || e.key === "D" || e.key === "ArrowRight")
       slide(Movement.MoveRight, true);
-    if (e.key === "q" || e.key === "Q" || e.keyCode === 33)
+    if (e.key === "q" || e.key === "Q" || e.key === "PageUp")
       slide(Movement.RotateLeft, true);
-    if (e.key === "e" || e.key === "E" || e.keyCode === 34)
+    if (e.key === "e" || e.key === "E" || e.key === "PageDown")
       slide(Movement.RotateRight, true);
   };
 

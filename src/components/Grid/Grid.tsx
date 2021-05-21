@@ -2,7 +2,7 @@ import React from "react";
 import { Movement } from "../../ts/types";
 
 import Square from "../Square/Square";
-import classes from "./Grid.module.css";
+import classes from "./Grid.module.scss";
 
 interface GridProps {
   isSolved?: boolean;

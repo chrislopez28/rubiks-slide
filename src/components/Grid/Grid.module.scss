@@ -1,29 +1,31 @@
+$moveTime: 0.25s;
+
 .RotateLeft {
-  animation: rotateLeft 0.25s linear;
+  animation: rotateLeft $moveTime linear;
 }
 
 .RotateRight {
-  animation: rotateRight 0.25s linear;
+  animation: rotateRight $moveTime linear;
 }
 
 .MoveUp {
-  animation: moveUp 0.25s linear;
+  animation: moveUp $moveTime linear;
 }
 
 .MoveDown {
-  animation: moveDown 0.25s linear;
+  animation: moveDown $moveTime linear;
 }
 
 .MoveLeft {
-  animation: moveLeft 0.25s linear;
+  animation: moveLeft $moveTime linear;
 }
 
 .MoveRight {
-  animation: moveRight 0.25s linear;
+  animation: moveRight $moveTime linear;
 }
 
 .Solved {
-    animation: solved 0.35s linear;
+  animation: solved 0.35s linear;
 }
 
 .Row {
@@ -31,111 +33,104 @@
 }
 
 .MiniRow {
-    margin: 0px;
-    box-sizing: border-box;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 @keyframes solved {
-    0% {
-        transform: scale(1)
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    33% {
-        transform: scale(1.2);
-    }
-      
-    66% {
-        transform: scale(1.4);
-    }
+  33% {
+    transform: scale(1.2);
+  }
+
+  66% {
+    transform: scale(1.4);
+  }
 }
 
 @keyframes rotateLeft {
-  
   0% {
     transform: rotate(0deg);
   }
-  
+
   33% {
     transform: rotate(-8deg);
   }
-  
+
   66% {
     transform: rotate(-15deg);
   }
 }
 
 @keyframes rotateRight {
-  
   0% {
     transform: rotate(0deg);
   }
-  
+
   33% {
     transform: rotate(8deg);
   }
-  
+
   66% {
     transform: rotate(15deg);
   }
 }
 
 @keyframes moveUp {
-  
   0% {
     transform: translateY(0px);
   }
-  
+
   33% {
     transform: translateY(-4px);
   }
-  
+
   66% {
     transform: translateY(-8px);
   }
 }
 
 @keyframes moveDown {
-  
   0% {
     transform: translateY(0px);
   }
-  
+
   33% {
     transform: translateY(4px);
   }
-  
+
   66% {
     transform: translateY(8px);
   }
 }
 
 @keyframes moveLeft {
-  
   0% {
     transform: translateX(0px);
   }
-  
+
   33% {
     transform: translateX(-4px);
   }
-  
+
   66% {
     transform: translateX(-8px);
   }
 }
 
 @keyframes moveRight {
-  
   0% {
     transform: translateX(0px);
   }
-  
+
   33% {
     transform: translateX(4px);
   }
-  
+
   66% {
     transform: translateX(8px);
   }
 }
-
