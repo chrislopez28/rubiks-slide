@@ -1,4 +1,6 @@
-function arrayEquals(a, b) {
+import { Movement } from "../ts/types";
+
+function arrayEquals(a: any[], b: any[]) {
   return (
     Array.isArray(a) &&
     Array.isArray(b) &&
@@ -7,7 +9,7 @@ function arrayEquals(a, b) {
   );
 }
 
-function rearrangeMatrix(matrix, moveType) {
+function rearrangeMatrix(matrix: number[], moveType: Movement) {
   switch (moveType) {
     case "rotateLeft":
       return [
@@ -86,7 +88,7 @@ function rearrangeMatrix(matrix, moveType) {
   }
 }
 
-function shuffle(array) {
+function shuffle(array: any[]) {
   const matrixCopy = [...array];
   let randomIndex;
   let temp;
