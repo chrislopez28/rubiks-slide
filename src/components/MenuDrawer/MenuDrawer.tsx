@@ -4,10 +4,11 @@ import styled from "styled-components";
 import Backdrop from "../UI/Backdrop/Backdrop";
 
 interface MenuDrawerProps {
-  click(): Function;
-  clickNewGame(): Function;
-  clickAutosolve(): Function;
-  clickSkip(): Function;
+  click(): void;
+  clickNewGame(): void;
+  clickAutosolve(): void;
+  clickSkip(): void;
+  isAutoplay: boolean;
   open?: boolean;
 }
 

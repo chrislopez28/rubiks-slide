@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
+import { Difficulty, Movement } from "./ts/types";
 import { arrayEquals, rearrangeMatrix, shuffle } from "./util/array";
 import { encodeGame } from "./util/gridEncoding";
 import useInterval from "./util/useInterval";
 import * as actions from "./store/actions/session";
 
 import DrawerToggle from "./components/MenuDrawer/DrawerToggle/DrawerToggle";
-// import GameDescription from "./components/Game/GameDescription";
 import GameInfo from "./components/Game/GameInfo";
 import GameScreen from "./components/Game/GameScreen";
 import HelpButton from "./components/HelpMenu/HelpButton";
@@ -17,6 +17,8 @@ import Footer from "./components/Game/Footer";
 import NextGridDialog from "./components/Game/NextGridDialog";
 import SelectDifficultyModal from "./components/Game/SelectDifficultyModal";
 import MenuDrawer from "./components/MenuDrawer/MenuDrawer";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
 const AppContainer = styled.div`
   min-width: 300px;
@@ -27,13 +29,23 @@ const AppContainer = styled.div`
   font-size: 14px;
 `;
 
-function App(props) {
+interface AppProps {
+  incrementSkipped(): void;
+  incrementSolved(): void;
+  initializeSession(): void;
+  setDifficulty(difficulty: Difficulty): void;
+  difficulty: Difficulty;
+  numberSolved: number;
+  numberSkipped: number;
+}
+
+function App(props: AppProps) {
   // State
   const [game, setGame] = useState({
     matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     target: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     gameId: "",
-    isSolved: null,
+    isSolved: false,
     moveCount: 0,
   });
   const gameRef = useRef(game);
@@ -46,7 +58,7 @@ function App(props) {
     resetDelay: 500,
     isFirstLoad: true,
   });
-  const [movement, setMovement] = useState("");
+  const [movement, setMovement] = useState(Movement.Undefined);
 
   // Effects
   useInterval(() => {
@@ -63,23 +75,23 @@ function App(props) {
   });
 
   // Keyhandlers
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
     if (gameRef.current.isSolved) {
       return;
     }
     if (e.key === "w" || e.key === "W" || e.keyCode === 38) {
-      slide("moveUp", true);
+      slide(Movement.MoveUp, true);
     }
     if (e.key === "s" || e.key === "S" || e.keyCode === 40)
-      slide("moveDown", true);
+      slide(Movement.MoveDown, true);
     if (e.key === "a" || e.key === "A" || e.keyCode === 37)
-      slide("moveLeft", true);
+      slide(Movement.MoveLeft, true);
     if (e.key === "d" || e.key === "D" || e.keyCode === 39)
-      slide("moveRight", true);
+      slide(Movement.MoveRight, true);
     if (e.key === "q" || e.key === "Q" || e.keyCode === 33)
-      slide("rotateLeft", true);
+      slide(Movement.RotateLeft, true);
     if (e.key === "e" || e.key === "E" || e.keyCode === 34)
-      slide("rotateRight", true);
+      slide(Movement.RotateRight, true);
   };
 
   useEffect(() => {
@@ -91,7 +103,7 @@ function App(props) {
   });
 
   // Function Declarations
-  function newGame(difficulty) {
+  function newGame(difficulty: Difficulty) {
     let numberColors = 1;
     let numberSquaresMax = 4;
 
@@ -137,8 +149,8 @@ function App(props) {
       }
     }
 
-    const updatedMatrix = shuffle(newMatrix);
-    let updatedTarget = shuffle(newMatrix);
+    const updatedMatrix: number[] = shuffle(newMatrix);
+    let updatedTarget: number[] = shuffle(newMatrix);
 
     if (arrayEquals(updatedMatrix, updatedTarget)) {
       while (arrayEquals(updatedMatrix, updatedTarget)) {
@@ -158,16 +170,16 @@ function App(props) {
     gameRef.current = newGame;
   }
 
-  function slide(moveType, referenceMatrix = false) {
+  function slide(moveType: Movement, referenceMatrix = false) {
     let matrix = referenceMatrix ? gameRef.current.matrix : game.matrix;
     matrix = rearrangeMatrix(matrix, moveType);
     updateMatrix(matrix, true);
 
     setMovement(moveType);
-    setTimeout(() => setMovement(""), 500);
+    setTimeout(() => setMovement(Movement.Undefined), 500);
   }
 
-  function updateMatrix(updatedMatrix, useGameRef = false) {
+  function updateMatrix(updatedMatrix: number[], useGameRef = false) {
     let newMoveCount = game.moveCount + 1;
     let isSolved = false;
     let prevGame = game;
@@ -204,22 +216,22 @@ function App(props) {
 
     switch (option) {
       case 0:
-        slide("rotateLeft");
+        slide(Movement.RotateLeft);
         break;
       case 1:
-        slide("rotateRight");
+        slide(Movement.RotateRight);
         break;
       case 2:
-        slide("moveUp");
+        slide(Movement.MoveUp);
         break;
       case 3:
-        slide("moveDown");
+        slide(Movement.MoveDown);
         break;
       case 4:
-        slide("moveLeft");
+        slide(Movement.MoveLeft);
         break;
       case 5:
-        slide("moveRight");
+        slide(Movement.MoveRight);
         break;
       default:
         break;
@@ -234,7 +246,7 @@ function App(props) {
     });
   }
 
-  function startGameHandler(difficulty) {
+  function startGameHandler(difficulty: Difficulty) {
     props.initializeSession();
     props.setDifficulty(difficulty);
     setGameSettings({
@@ -300,7 +312,17 @@ function App(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+interface RootState {
+  session: Session;
+}
+
+interface Session {
+  numberSolved: number;
+  numberSkipped: number;
+  difficulty: Difficulty;
+}
+
+const mapStateToProps = (state: RootState) => {
   return {
     numberSolved: state.session.numberSolved,
     numberSkipped: state.session.numberSkipped,
@@ -308,9 +330,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
-    setDifficulty: (difficulty) => dispatch(actions.setDifficulty(difficulty)),
+    setDifficulty: (difficulty: Difficulty) =>
+      dispatch(actions.setDifficulty(difficulty)),
     incrementSkipped: () => dispatch(actions.incrementSkipped()),
     incrementSolved: () => dispatch(actions.incrementSolved()),
     initializeSession: () => dispatch(actions.initializeSession()),

@@ -10,4 +10,5 @@ export enum Movement {
   MoveDown = "moveDown",
   MoveLeft = "moveLeft",
   MoveRight = "moveRight",
+  Undefined = "",
 }

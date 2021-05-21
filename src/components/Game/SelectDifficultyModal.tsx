@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import Modal from "../UI/Modal/Modal";
 
 interface SelectDifficultyModalProps {
-  modalClosed: boolean;
+  modalClosed(): void;
   show: boolean;
   startGameHandler(arg: string): void;
   toggleStart: React.MouseEventHandler<HTMLButtonElement>;
