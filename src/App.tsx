@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 
 import { Difficulty, Movement } from "./ts/types";
-import { arrayEquals, rearrangeMatrix, shuffle } from "./util/array";
-import { encodeGame } from "./util/gridEncoding";
-import useInterval from "./util/useInterval";
+import { arrayEquals, rearrangeMatrix, shuffle } from "./lib/array";
+import { encodeGame } from "./lib/gridEncoding";
+import useInterval from "./lib/useInterval";
 import * as actions from "./store/actions/session";
 
 import DrawerToggle from "./components/MenuDrawer/DrawerToggle/DrawerToggle";
