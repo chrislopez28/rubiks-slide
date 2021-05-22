@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 import { Difficulty, Movement } from "./ts/types";
 import { arrayEquals, rearrangeMatrix, shuffle } from "./lib/array";
-import { encodeGame } from "./lib/gridEncoding";
 import useInterval from "./lib/useInterval";
 import * as actions from "./store/actions/session";
 
@@ -44,7 +43,6 @@ function App(props: AppProps) {
   const [game, setGame] = useState({
     matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
     target: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    gameId: "",
     isSolved: false,
     moveCount: 0,
   });
@@ -161,7 +159,6 @@ function App(props: AppProps) {
     const newGame = {
       matrix: updatedMatrix,
       target: updatedTarget,
-      gameId: encodeGame(updatedMatrix, updatedTarget),
       isSolved: false,
       moveCount: 0,
     };
