@@ -9,6 +9,46 @@ function arrayEquals(a: any[], b: any[]) {
   );
 }
 
+function createMatrix(numSquaresMax: number, numColors: number) {
+  const newMatrix = [];
+  let numSquares = 0;
+  let randomColor;
+
+  for (let i = 0; i < 9; i++) {
+    if (numSquares < numSquaresMax) {
+      randomColor = Math.floor(Math.random() * numColors);
+
+      if (i < 2 && numColors > 1) {
+        if (i === 0) {
+          randomColor = 0;
+        }
+        if (i === 1) {
+          randomColor = 1;
+        }
+      }
+      switch (randomColor) {
+        case 0:
+          newMatrix.push(1);
+          break;
+        case 1:
+          newMatrix.push(2);
+          break;
+        case 2:
+          newMatrix.push(3);
+          break;
+        default:
+          newMatrix.push(0);
+          break;
+      }
+      numSquares += 1;
+    } else {
+      newMatrix.push(0);
+    }
+  }
+
+  return newMatrix;
+}
+
 function rearrangeMatrix(matrix: number[], moveType: Movement) {
   switch (moveType) {
     case "rotateLeft":
@@ -104,4 +144,4 @@ function shuffle(array: any[]) {
   return matrixCopy;
 }
 
-export { arrayEquals, rearrangeMatrix, shuffle };
+export { arrayEquals, createMatrix, rearrangeMatrix, shuffle };
