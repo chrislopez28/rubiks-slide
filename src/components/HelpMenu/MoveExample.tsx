@@ -29,11 +29,9 @@ export default function MoveExample(props: MoveExampleProps) {
   return (
     <>
       <div style={{ textAlign: "left" }}>
-        <b>
-          <u>{props.moveName}</u>
-        </b>
-        :
-        <br />
+        <div style={{ margin: "0", paddingBottom: "4px" }}>
+          <b>{props.moveName}</b>:
+        </div>
         {props.controls.map((control, index) => (
           <>
             <Key>{control}</Key>

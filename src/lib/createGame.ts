@@ -1,7 +1,9 @@
 import { arrayEquals, createMatrix, rearrangeMatrix, shuffle } from "./array";
-import { Difficulty, Movement } from "../ts/types";
+import { Difficulty, GameType, Movement } from "../ts/types";
 
-export const createGame = (difficulty: Difficulty = Difficulty.Normal) => {
+export const createGame = (
+  difficulty: Difficulty = Difficulty.Normal
+): GameType => {
   let numColors = 1;
   let numberSquaresMax = 4;
 

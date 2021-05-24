@@ -38,24 +38,24 @@ export default function GameScreen(props: GameScreenProps) {
       <Row>
         <ControlButton
           type="rotateLeft"
-          onClick={() => props.slide("rotateLeft")}
+          onClick={() => props.slide(Movement.RotateLeft)}
           disabled={props.isSolved}
         />
         <ControlButton
           type="moveUp"
-          onClick={() => props.slide("moveUp")}
+          onClick={() => props.slide(Movement.MoveUp)}
           disabled={props.isSolved}
         />
         <ControlButton
           type="rotateRight"
-          onClick={() => props.slide("rotateRight")}
+          onClick={() => props.slide(Movement.RotateRight)}
           disabled={props.isSolved}
         />
       </Row>
       <Row>
         <ControlButton
           type="moveLeft"
-          onClick={() => props.slide("moveLeft")}
+          onClick={() => props.slide(Movement.MoveLeft)}
           disabled={props.isSolved}
         />
         <Grid
@@ -65,14 +65,14 @@ export default function GameScreen(props: GameScreenProps) {
         />
         <ControlButton
           type="moveRight"
-          onClick={() => props.slide("moveRight")}
+          onClick={() => props.slide(Movement.MoveRight)}
           disabled={props.isSolved}
         />
       </Row>
       <Row>
         <ControlButton
           type="moveDown"
-          onClick={() => props.slide("moveDown")}
+          onClick={() => props.slide(Movement.MoveDown)}
           disabled={props.isSolved}
         />
       </Row>

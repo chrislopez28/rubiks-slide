@@ -3,6 +3,14 @@ export enum Difficulty {
   Hard = "hard",
 }
 
+export interface GameType {
+  slide(moveType: Movement): void;
+  getSolvedStatus(): boolean;
+  getMatrix(): number[];
+  getTarget(): number[];
+  getMoves(): string[];
+}
+
 export enum Movement {
   RotateLeft = "rotateLeft",
   RotateRight = "rotateRight",

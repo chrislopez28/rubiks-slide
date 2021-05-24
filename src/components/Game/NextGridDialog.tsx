@@ -28,6 +28,7 @@ const NextButton = styled.div`
   z-index: 1001;
   font-size: 3rem;
   font-family: monospace;
+  transition-delay: 2s;
 
   &:hover {
     cursor: pointer;

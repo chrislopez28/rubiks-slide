@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
 import { Difficulty, Movement } from "./ts/types";
-import { arrayEquals, rearrangeMatrix, shuffle } from "./lib/array";
 import useInterval from "./lib/useInterval";
 import * as actions from "./store/actions/session";
+
+import { createGame } from "./lib/createGame";
 
 import DrawerToggle from "./components/MenuDrawer/DrawerToggle/DrawerToggle";
 import GameInfo from "./components/Game/GameInfo";
@@ -40,29 +41,26 @@ interface AppProps {
 
 function App(props: AppProps) {
   // State
-  const [game, setGame] = useState({
-    matrix: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    target: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    isSolved: false,
-    moveCount: 0,
-  });
-  const gameRef = useRef(game);
+  const [game, setGame] = useState(createGame());
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const [gameSettings, setGameSettings] = useState({
     isAutoplay: false,
-    isStart: true,
+    isStart: false,
     showMenu: false,
     difficulty: "normal",
     resetDelay: 500,
     isFirstLoad: true,
   });
-  const [movement, setMovement] = useState(Movement.Undefined);
+  const [movement, setMovement] = useState({
+    lastMove: Movement.Undefined,
+    value: 0,
+  });
 
   // Effects
   useInterval(() => {
     if (gameSettings.isAutoplay) {
-      if (!game.isSolved) {
-        randomize();
+      if (!game.getSolvedStatus()) {
+        autoMove();
       } else {
         setGameSettings({
           ...gameSettings,
@@ -72,25 +70,56 @@ function App(props: AppProps) {
     }
   });
 
-  // Keyhandlers
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (gameRef.current.isSolved) {
-      return;
-    }
-    if (e.key === "w" || e.key === "W" || e.key === "ArrowUp") {
-      slide(Movement.MoveUp, true);
-    }
-    if (e.key === "s" || e.key === "S" || e.key === "ArrowDown")
-      slide(Movement.MoveDown, true);
-    if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft")
-      slide(Movement.MoveLeft, true);
-    if (e.key === "d" || e.key === "D" || e.key === "ArrowRight")
-      slide(Movement.MoveRight, true);
-    if (e.key === "q" || e.key === "Q" || e.key === "PageUp")
-      slide(Movement.RotateLeft, true);
-    if (e.key === "e" || e.key === "E" || e.key === "PageDown")
-      slide(Movement.RotateRight, true);
-  };
+  const moveGrid = useCallback(
+    (moveType: Movement) => {
+      game.slide(moveType);
+      setMovement({
+        lastMove: moveType,
+        value: movement.value + 1,
+      });
+      setTimeout(
+        () =>
+          setMovement({ lastMove: Movement.Undefined, value: movement.value }),
+        500
+      );
+
+      if (game.getSolvedStatus()) {
+        if (gameSettings.isAutoplay) {
+          props.incrementSkipped();
+        } else {
+          props.incrementSolved();
+        }
+      }
+    },
+    [game, gameSettings.isAutoplay, movement.value, props]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      // if (gameRef.current.getSolvedStatus) {
+      //   return;
+      // }
+      if (e.key === "w" || e.key === "W" || e.key === "ArrowUp") {
+        moveGrid(Movement.MoveUp);
+      }
+      if (e.key === "s" || e.key === "S" || e.key === "ArrowDown") {
+        moveGrid(Movement.MoveDown);
+      }
+      if (e.key === "a" || e.key === "A" || e.key === "ArrowLeft") {
+        moveGrid(Movement.MoveLeft);
+      }
+      if (e.key === "d" || e.key === "D" || e.key === "ArrowRight") {
+        moveGrid(Movement.MoveRight);
+      }
+      if (e.key === "q" || e.key === "Q" || e.key === "PageUp") {
+        moveGrid(Movement.RotateLeft);
+      }
+      if (e.key === "e" || e.key === "E" || e.key === "PageDown") {
+        moveGrid(Movement.RotateRight);
+      }
+    },
+    [moveGrid]
+  );
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
@@ -100,147 +129,35 @@ function App(props: AppProps) {
     };
   });
 
-  // Function Declarations
   function newGame(difficulty: Difficulty) {
-    let numberColors = 1;
-    let numberSquaresMax = 4;
-
-    if (difficulty === "hard") {
-      numberColors = 2;
-      numberSquaresMax = 5;
-    }
-
-    let numSquaresMax = Math.floor(Math.random() * (numberSquaresMax - 1)) + 2;
-    let randomColor;
-    let numSquares = 0;
-
-    const newMatrix = [];
-    for (let i = 0; i < 9; i++) {
-      if (numSquares < numSquaresMax) {
-        randomColor = Math.floor(Math.random() * numberColors);
-
-        if (i < 2 && numberColors > 1) {
-          if (i === 0) {
-            randomColor = 0;
-          }
-          if (i === 1) {
-            randomColor = 1;
-          }
-        }
-        switch (randomColor) {
-          case 0:
-            newMatrix.push(1);
-            break;
-          case 1:
-            newMatrix.push(2);
-            break;
-          case 2:
-            newMatrix.push(3);
-            break;
-          default:
-            newMatrix.push(0);
-            break;
-        }
-        numSquares += 1;
-      } else {
-        newMatrix.push(0);
-      }
-    }
-
-    const updatedMatrix: number[] = shuffle(newMatrix);
-    let updatedTarget: number[] = shuffle(newMatrix);
-
-    if (arrayEquals(updatedMatrix, updatedTarget)) {
-      while (arrayEquals(updatedMatrix, updatedTarget)) {
-        updatedTarget = shuffle(newMatrix);
-      }
-    }
-
-    const newGame = {
-      matrix: updatedMatrix,
-      target: updatedTarget,
-      isSolved: false,
-      moveCount: 0,
-    };
-
-    setGame(newGame);
-    gameRef.current = newGame;
+    setGame(createGame(difficulty));
   }
 
-  function slide(moveType: Movement, referenceMatrix = false) {
-    let matrix = referenceMatrix ? gameRef.current.matrix : game.matrix;
-    matrix = rearrangeMatrix(matrix, moveType);
-    updateMatrix(matrix, true);
-
-    setMovement(moveType);
-    setTimeout(() => setMovement(Movement.Undefined), 500);
-  }
-
-  function updateMatrix(updatedMatrix: number[], useGameRef = false) {
-    let newMoveCount = game.moveCount + 1;
-    let isSolved = false;
-    let prevGame = game;
-    let target = game.target;
-
-    if (useGameRef) {
-      newMoveCount = gameRef.current.moveCount + 1;
-      prevGame = gameRef.current;
-      target = gameRef.current.target;
-    }
-
-    if (arrayEquals(updatedMatrix, target)) {
-      isSolved = true;
-      if (gameSettings.isAutoplay) {
-        props.incrementSkipped();
-      } else {
-        props.incrementSolved();
-      }
-    }
-
-    const updatedGame = {
-      ...prevGame,
-      matrix: updatedMatrix,
-      isSolved,
-      moveCount: newMoveCount,
-    };
-
-    setGame(updatedGame);
-    gameRef.current = updatedGame;
-  }
-
-  function randomize() {
+  function autoMove() {
     let option = Math.floor(Math.random() * 5);
 
     switch (option) {
       case 0:
-        slide(Movement.RotateLeft);
+        moveGrid(Movement.RotateLeft);
         break;
       case 1:
-        slide(Movement.RotateRight);
+        moveGrid(Movement.RotateRight);
         break;
       case 2:
-        slide(Movement.MoveUp);
+        moveGrid(Movement.MoveUp);
         break;
       case 3:
-        slide(Movement.MoveDown);
+        moveGrid(Movement.MoveDown);
         break;
       case 4:
-        slide(Movement.MoveLeft);
+        moveGrid(Movement.MoveLeft);
         break;
       case 5:
-        slide(Movement.MoveRight);
+        moveGrid(Movement.MoveRight);
         break;
       default:
         break;
     }
-  }
-
-  function toggleAutoplay() {
-    const isAutoplay = !gameSettings.isAutoplay;
-    setGameSettings({
-      ...gameSettings,
-      isAutoplay: isAutoplay,
-    });
   }
 
   function startGameHandler(difficulty: Difficulty) {
@@ -252,6 +169,15 @@ function App(props: AppProps) {
     newGame(difficulty);
     toggleStart();
     setShowSideDrawer(false);
+  }
+
+  function toggleAutoplay() {
+    const updatedIsAutoplay = !gameSettings.isAutoplay;
+
+    setGameSettings({
+      ...gameSettings,
+      isAutoplay: updatedIsAutoplay,
+    });
   }
 
   function toggleStart() {
@@ -287,21 +213,21 @@ function App(props: AppProps) {
       />
       <Header />
       <GameScreen
-        isSolved={game.isSolved}
-        matrix={game.matrix}
-        movement={movement}
-        slide={slide}
+        isSolved={game.getSolvedStatus()}
+        matrix={game.getMatrix()}
+        movement={movement.lastMove}
+        slide={moveGrid}
       />
       <NextGridDialog
-        isSolved={game.isSolved}
+        isSolved={game.getSolvedStatus()}
         difficulty={props.difficulty}
         newGame={newGame}
       />
       <GameInfo
         numberSolved={props.numberSolved}
         numberSkipped={props.numberSkipped}
-        moveCount={game.moveCount}
-        targetGrid={gameRef.current.target}
+        moveCount={game.getMoves().length}
+        targetGrid={game.getTarget()}
       />
       <HelpButton />
       <Footer />

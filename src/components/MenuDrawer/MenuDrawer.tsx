@@ -18,7 +18,7 @@ const MenuDrawerContainer = styled.div<{ open?: Boolean }>`
   margin-top: 47px;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 101;
   background-color: rgba(160, 193, 227, 0.75);
   box-sizing: border-box;
   color: white;

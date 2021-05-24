@@ -30,6 +30,7 @@ const HelpButtonPopupContainer = styled.div`
   z-index: 200;
   background-color: white;
   animation: ${appear} 2000ms infinite;
+  font-family: monospace;
 `;
 
 export default function HelpPopup(props: HelpPopupProps) {
