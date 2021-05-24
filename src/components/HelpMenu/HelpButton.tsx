@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import HelpButtonBackdrop from "./HelpBackdrop";
 import HelpButtonPopup from "./HelpPopup";
+import MoveExample from "./MoveExample";
 
 import styled from "styled-components";
 
@@ -23,26 +24,19 @@ const HelpButtonContainer = styled.button`
   }
 `;
 
-const Key = styled.kbd`
-  background-color: #eee;
-  border-radius: 3px;
-  border: 1px solid #b4b4b4;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
-    0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
-  color: #333;
-  display: inline-block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 2px 4px;
-  white-space: nowrap;
-`;
+// const List = styled.ul`
+//   list-style: none;
+//   padding: 0;
+//   text-align: left;
+// `;
 
-const List = styled.ul`
-  list-style: none;
-  padding: 0;
-  text-align: left;
-`;
+const gridExample = [0, 1, 1, 0, 2, 0, 0, 1, 0];
+const slideRightEx = [1, 0, 1, 0, 0, 2, 0, 0, 1];
+const slideLeftEx = [1, 1, 0, 2, 0, 0, 1, 0, 0];
+const slideUpEx = [0, 2, 0, 0, 1, 0, 0, 1, 1];
+const slideDownEx = [0, 1, 0, 0, 1, 1, 0, 2, 0];
+const rotateCounterEx = [1, 1, 0, 0, 2, 0, 0, 0, 1];
+const rotateClockEx = [0, 0, 1, 0, 2, 1, 1, 0, 0];
 
 export default function HelpButton() {
   const [showPopup, setShowPopup] = useState(false);
@@ -58,10 +52,54 @@ export default function HelpButton() {
           Press the arrows to "slide" and "rotate" the grid of squares so that
           it matches the target shown on the bottom right.
         </p>
-        <h4>Keyboard Controls</h4>
-        <List>
-          <li>
-            Slide Left: <Key>A</Key>, <Key>Left Arrow</Key>
+        <h4>Controls</h4>
+        {/* <List>
+          <li> */}
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={slideLeftEx}
+          moveName={"Slide Left"}
+          controls={["A", "Left Arrow"]}
+        />
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={slideRightEx}
+          moveName={"Slide Right"}
+          controls={["D", "Right Arrow"]}
+        />
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={slideUpEx}
+          moveName={"Slide Up"}
+          controls={["W", "Up Arrow"]}
+        />
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={slideDownEx}
+          moveName={"Slide Down"}
+          controls={["S", "Down Arrow"]}
+        />
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={rotateCounterEx}
+          moveName={"Rotate Counterclockwise"}
+          controls={["Q", "Page Up"]}
+        />
+        <MoveExample
+          matrixBefore={gridExample}
+          matrixAfter={rotateClockEx}
+          moveName={"Rotate Clockwise"}
+          controls={["E", "Page Down"]}
+        />
+        {/* Slide Left: <Key>A</Key>, <Key>Left Arrow</Key>
+            <br />
+            <div
+              style={{ display: "flex", alignItems: "center", padding: "8px" }}
+            >
+              <Grid matrix={gridExample} mini />
+              <div style={{ margin: "0 8px" }}>&rarr;</div>
+              <Grid matrix={gridExample} mini />
+            </div>
           </li>
           <li>
             Slide Right: <Key>D</Key>, <Key>Right Arrow</Key>
@@ -78,7 +116,7 @@ export default function HelpButton() {
           <li>
             Rotate Clockwise: <Key>E</Key>, <Key>Page Down</Key>
           </li>
-        </List>
+        </List> */}
       </HelpButtonPopup>
       <HelpButtonBackdrop show={showPopup} click={() => setShowPopup(false)} />
     </>
