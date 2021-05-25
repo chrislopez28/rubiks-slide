@@ -24,12 +24,6 @@ const HelpButtonContainer = styled.button`
   }
 `;
 
-// const List = styled.ul`
-//   list-style: none;
-//   padding: 0;
-//   text-align: left;
-// `;
-
 const gridExample = [0, 1, 1, 0, 2, 0, 0, 1, 0];
 const slideRightEx = [1, 0, 1, 0, 0, 2, 0, 0, 1];
 const slideLeftEx = [1, 1, 0, 2, 0, 0, 1, 0, 0];
@@ -53,8 +47,6 @@ export default function HelpButton() {
           it matches the target shown on the bottom right.
         </p>
         <h4>Controls</h4>
-        {/* <List>
-          <li> */}
         <MoveExample
           matrixBefore={gridExample}
           matrixAfter={slideLeftEx}

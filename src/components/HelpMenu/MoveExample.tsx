@@ -33,10 +33,10 @@ export default function MoveExample(props: MoveExampleProps) {
           <b>{props.moveName}</b>:
         </div>
         {props.controls.map((control, index) => (
-          <>
+          <span key={index}>
             <Key>{control}</Key>
             {index !== numControls - 1 ? <span>, </span> : null}
-          </>
+          </span>
         ))}
       </div>
       <div

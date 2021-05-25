@@ -7,11 +7,10 @@ interface HelpPopupProps {
 
 const appear = keyframes`
   0% {
-    opacity = 0;
+    opacity: 0;
   }
-
   100% {
-    opacity = 1;
+    opacity: 1;
   }
 `;
 
@@ -29,7 +28,7 @@ const HelpButtonPopupContainer = styled.div`
   box-shadow: 0.25px 0.25px 0.25px 0.25px #ccc;
   z-index: 200;
   background-color: white;
-  animation: ${appear} 2000ms infinite;
+  animation: ${appear} 150ms linear;
   font-family: monospace;
 `;
 
